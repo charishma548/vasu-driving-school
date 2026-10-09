@@ -1,0 +1,19 @@
+{
+  "name": "vasu-driving-school-frontend",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "lucide-react": "^1.53.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "vasu-driving-school": "file:..",
+    "vite": "^8.3.3"
+  }
+}
