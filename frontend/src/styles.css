@@ -1,788 +1,1575 @@
-/* ORIGINAL CSS: all existing colours and component styles preserved. */
+/*
+  VASU DRIVING SCHOOL — STYLESHEET GUIDE
+  --------------------------------------
+  This stylesheet controls the visual appearance and layout of the React app.
+  CSS comments explain the purpose of the following rules.
+  The colour variables below are the existing theme; keep them unchanged if
+  you want to preserve the current red, pink, white and grey design.
+  Responsive rules near the bottom adjust layout for tablet and phone widths.
+  CSS only affects appearance/layout; React code controls actions and data saving.
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+/* Theme variables: shared colours, borders, and shadow used throughout the site. */
 :root {
- 
+
+
+
     --bg:#f7f8fa;
+
   --card:hsl(0, 61%, 68%);
-  --ink:#17202a;
+
+  --ink:#091f38;
+
   --muted:#20211d;
+
   --line:#98a0b6;
+
   --accent:#bb1313;
+
   --accent2:#f08a5b;
+
   --green:#0e8557;
+
   --red:#ca0f0f;
+
   --blue:#4667c9;
+
   --shadow:0 8px 30px rgba(20,30,45,.06)}
 
 
+
+
+
    /* Apply border-box sizing so padding and borders are included in element width/height calculations. */
+
    * {box-sizing:border-box}
 
 
 
+
+
+
+
    /* Base page style: remove default margin, set the page background and text colour, and choose the main font. */
+
    body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
 
 
 
+
+
+
+
    /* Make form controls inherit the same font as the rest of the site. */
+
    button,input,select,textarea{font:inherit}
 
 
 
+
+
+
+
    /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+
    button{cursor:pointer}
 
 
 
+
+
+
+
    /* Use the display font for headings and remove their default margin. */
+
    h1,h2,h3{font-family:Manrope;margin:0}
 
 
 
+
+
+
+
    /* Set paragraph spacing and the muted colour used for supporting text. */
+
    p{margin:5px 0;color:var(--muted)}
 
 
 
+
+
+
+
    /* Set paragraph spacing and the muted colour used for supporting text. */
-   .app{display:flex;min-height:100vh}
+
+   /* App shell: places the fixed sidebar beside the main page content. */
+.app{display:flex;min-height:100vh}
+
+
+
+
 
 
 
    /* Left navigation panel: fixed to the left side and full screen height. */
+
    .sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
 
 
 
+
+
+
+
    /* Layout for the brand/logo and school name inside the sidebar. */
+
    .brand{display:flex;align-items:center;gap:11px;padding:0 9px 22px}
 
 
 
+
+
+
+
    /* Style the bold school name in the sidebar. */
+
    .brand b{display:block;font:800 18px Manrope}
 
 
 
+
+
+
+
    /* Style the smaller subtitle below the school name. */
+
    .brand span{font-size:11px;color:var(--muted)}
 
 
 
+
+
+
+
    /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
+
    .logo{width: 37px;height:37px;border-radius:12px;background:var(--ink);color:white;display:grid;place-items:center;font:800 19px Manrope}
 
 
 
+
+
+
+
    /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
+
    .logo.big{width:80px;height:62px;font-size:30px;border-radius:19px;margin:auto}
 
 
 
+
+
+
+
    /* Close control for the mobile sidebar; hidden on desktop. */
+
    .close{display:none;border:0;background:none;margin-left:auto}
 
 
 
+
+
+
+
    /* Small label showing which branch is currently selected. */
+
    .branch-pill{background:#f8f0eb;color:#a94c25;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
 
 
 
+
+
+
+
    /* Arrange sidebar navigation buttons vertically. */
+
    .sidebar nav{display:grid;gap:4px}
 
 
 
+
+
+
+
    /* Arrange sidebar navigation buttons vertically. */
+
    .sidebar nav button,.switch{border:0;background:none;padding:11px 12px;border-radius:9px;text-align:left;color:#111213;display:flex;gap:11px;align-items:center;font-weight:600}
 
 
 
+
+
+
+
    /* Arrange sidebar navigation buttons vertically. */
+
    .sidebar nav button.active{background:#fff0e9;color:hsl(0, 93%, 6%)}
 
 
 
+
+
+
+
    /* Style the branch/logout switch control and push it toward the bottom of the sidebar. */
+
    .switch{margin-top:auto}
 
 
 
+
+
+
+
    /* Arrange sidebar navigation buttons vertically. */
+
    .sidebar nav button:hover,.switch:hover{background:hsl(0, 4%, 64%)}
 
 
-  main{margin-left:245px;width:calc(100% - 245px)}
 
-  header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
+
+
+  /* Desktop content area: reserve space for the 245px fixed sidebar. */
+main{margin-left:245px;width:calc(100% - 245px)}
+
+
+
+  /* Top header: title, branch name, refresh and primary action. */
+header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
+
+
 
   header h1{font-size:22px}
 
+
+
   header p{font-size:12px}
 
-  .primary,.outline{border:0;border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:7px;font-weight:700}
+
+
+  /* Shared button layout; colour variants are defined in the rules below. */
+.primary,.outline{border:0;border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:7px;font-weight:700}
+
+
 
   .primary{background:var(--accent);color:#fff}
 
+
+
   .primary:hover{background:#cc5727}
+
+
 
   .outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
 
-  .content{padding:30px 34px;max-width:1400px;margin:auto}
+
+
+  /* Main page padding and maximum readable content width. */
+.content{padding:30px 34px;max-width:1400px;margin:auto}
+
+
 
   .welcome{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}
 
+
+
   .eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#a4acb8}
+
+
 
   .welcome h2{font-size:26px}
 
+
+
   .welcome p{font-size:13px}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+
+
+  /* Dashboard summary cards arranged in a responsive grid. */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+
+
 
   .stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
 
+
+
   .stat-icon{width:40px;height:40px;border-radius:10px;background:#fff1e9;color:var(--accent);display:grid;place-items:center}
+
+
 
   .stat span{display:block;color:var(--muted);font-size:12px}
 
+
+
   .stat strong{font:800 23px Manrope;display:block;margin-top:3px}
 
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+
+  /* Two-column content panels on larger screens. */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+
 
   .panel,.form-panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
 
+
+
   .panel{padding:20px}
+
+
 
   .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 
+
+
   .panel-head h3{font-size:16px}
+
+
 
   .link{border:0;background:none;color:var(--accent);font-weight:700}
 
+
+
   .quick{display:grid;gap:8px}
+
+
 
   .quick button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:13px;text-align:left;display:grid;grid-template-columns:25px 1fr;align-items:center}
 
+
+
   .quick svg{grid-row:span 2;color:var(--accent)}
+
+
 
   .quick b{font-size:13px}
 
+
+
   .quick span{font-size:11px;color:var(--muted);margin-top:2px}
+
+
 
   .mini,.person,.history-card,.attendance-card{display:flex;align-items:center;gap:11px}
 
+
+
   .mini{padding:11px 0;border-bottom:1px solid var(--line)}
+
+
 
   .mini:last-child{border:0}
 
+
+
   .mini>div:nth-child(2),.person>div:nth-child(2){flex:1}
+
+
 
   .mini b,.person b,.history-card b{display:block;font-size:13px}
 
+
+
   .mini span,.person span,.history-card span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+
+
 
   .avatar{width:35px;height:35px;border-radius:10px;background:#f2eee9;display:grid;place-items:center;color:#9b5535;font-weight:800;flex:none}
 
+
+
   .avatar.large{width:60px;height:60px;font-size:23px}
+
+
 
   .badge{padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800}
 
+
+
   .badge.active{background:#eaf7f1;color:#238b63}
+
+
 
   .badge.completed{background:#edf0fb;color:#4667c9}
 
+
+
   .badge.on{background:#fff4d9;color:#9b6b00}
+
+
 
   .badge.cancelled{background:#fdecec;color:#b43f3f}
 
-  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}
+
+
+  /* Search and page-level actions above tables/lists. */
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}
+
+
 
   .search{border:1px solid var(--line);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;width:min(470px,100%)}
 
+
+
   .search input{border:0;outline:0;width:100%;font-size:13px}
 
-  .table-wrap{overflow:auto}
+
+
+  /* Scroll container for wide data tables, especially on smaller screens. */
+.table-wrap{overflow:auto}
+
+
 
   table{width:100%;border-collapse:collapse}
 
+
+
   th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:#8b94a2;text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+
+
 
   td{padding:13px 8px;border-bottom:1px solid #f0f1f4;font-size:12px}
 
+
+
   tbody tr{cursor:pointer}
+
+
 
   tbody tr:hover{background:#fafafa}
 
+
+
   .progress{width:105px}
+
+
 
   .progress>div{display:flex;justify-content:flex-end;font-size:10px;color:var(--muted)}
 
+
+
   .progress i{height:5px;background:#eceef2;border-radius:9px;display:block;margin-top:4px}
+
+
 
   .progress em{display:block;height:100%;background:var(--accent);border-radius:9px}
 
-  .form-panel{padding:27px}
+
+
+  /* Student form container and spacing. */
+.form-panel{padding:27px}
+
+
 
   .form-title{display:flex;gap:17px;align-items:flex-start;margin-bottom:27px}
 
+
+
   .back{border:0;background:none;padding:3px;color:#667180;display:flex;gap:6px;align-items:center;font-weight:600}
+
+
 
   .form-title h2{font-size:21px}
 
+
+
   .form-title p{font-size:12px}
+
+
 
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:850px}
 
+
+
   .form-grid label{display:grid;gap:7px}
+
+
 
   .form-grid label.full{grid-column:1/-1}
 
+
+
   .form-grid label>span{font-size:11px;font-weight:700;color:#596473}
+
+
 
   .form-grid input,.form-grid select,.form-grid textarea,.date{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
 
+
+
   .form-grid textarea{min-height:85px;resize:vertical}
+
+
 
   .form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus{border-color:#e5a486}
 
+
+
   .plan{display:flex;gap:35px;background:#faf4f0;border-radius:10px;padding:16px;margin:25px 0}
+
+
 
   .plan span{display:block;font-size:10px;color:var(--muted)}
 
+
+
   .plan b{display:block;font-size:13px;margin-top:4px}
+
+
 
   .form-actions{display:flex;justify-content:flex-end;gap:10px}
 
-  .profile-head{display:flex;align-items:center;gap:15px;margin:18px 0}
+
+
+  /* Student profile header: avatar, student details, and action buttons. */
+.profile-head{display:flex;align-items:center;gap:15px;margin:18px 0}
+
+
 
   .profile-main{flex:1}
 
+
+
   .profile-main h2{font-size:22px}
+
+
 
   .profile-main p{font-size:12px}
 
+
+
   .attendance-list{display:grid}
+
+
 
   .att-row{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px}
 
+
+
   .att-row b{font-size:12px}
+
+
 
   .att-row select{border:1px solid var(--line);padding:7px;border-radius:7px;font-size:11px}
 
-  .attendance-table{display:grid;gap:9px}
+
+
+  /* Attendance page: list of student attendance cards. */
+.attendance-table{display:grid;gap:9px}
+
+
 
   .attendance-card{justify-content:space-between;border:1px solid var(--line);padding:13px;border-radius:10px}
 
+
+
   .att-buttons{display:flex;gap:6px;flex-wrap:wrap}
+
+
 
   .att-buttons button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 10px;font-size:10px;font-weight:700}
 
+
+
   .att-buttons button.selected.present{background:#eaf7f1;border-color:#b8e2cf;color:#238b63}
+
+
 
   .att-buttons button.selected.absent{background:#fdecec;border-color:#efc3c3;color:#b43f3f}
 
+
+
   .att-buttons button.selected.rescheduled{background:#fff4d9;border-color:#efd99b;color:#956900}
+
+
 
   .history-card{padding:15px 5px;border-bottom:1px solid var(--line);cursor:pointer}
 
+
+
   .history-card svg:last-child{margin-left:5px;color:#aab1bb}
 
-  .vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+
+  /* Training vehicle cards. */
+.vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+
 
   .vehicle-icon{width:45px;height:45px;border-radius:12px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;margin-bottom:15px}
 
+
+
   .vehicle h3{font-size:17px}
+
+
 
   .vehicle p{font-size:11px}
 
+
+
   .available,.occupied{display:inline-block;padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800;margin:13px 0}
+
+
 
   .available{background:#eaf7f1;color:#238b63}
 
+
+
   .occupied{background:#fff4d9;color:#9b6b00}
+
+
 
   .vehicle-student{border-top:1px solid var(--line);padding:9px 0;font-size:12px}
 
+
+
   .vehicle-student span{float:right;color:var(--muted);font-size:10px}
+
+
 
   .empty{text-align:center;padding:30px;color:#8b94a2;font-size:12px}
 
+
+
   .hamb{display:none;border:0;background:none}
+
+
 
   .header-left{display:flex;align-items:center;gap:12px;min-width:0}
 
-  .branch-screen{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top,#fff7f2,#f7f8fa 45%);padding:40px}
+
+
+  /* Branch selection landing screen. */
+.branch-screen{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top,#fff7f2,#f7f8fa 45%);padding:40px}
+
+
 
   .hero{text-align:center}
 
+
+
   .hero h1{font-size:31px;margin-top:16px}
+
+
 
   .hero p{font-size:13px}
 
+
+
   .branch-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,360px));gap:18px;margin:30px 0}
+
+
 
   .branch-card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px;text-align:left;display:flex;align-items:center;gap:17px;box-shadow:var(--shadow);transition:.2s}
 
+
+
   .branch-card:hover{transform:translateY(-3px);border-color:#edb69e}
+
+
 
   .branch-icon{width:52px;height:52px;border-radius:14px;background:#fff0e9;display:grid;place-items:center;font-size:25px}
 
+
+
   .branch-card h2{font-size:17px}
+
+
 
   .branch-card span{font-size:11px;color:var(--accent);display:flex;align-items:center;gap:4px;margin-top:5px}
 
+
+
   .branch-screen small{color:#9aa2ad;font-size:10px}
+
   @media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.2s}
+
+
 
   .sidebar.open{transform:translateX(0)}
 
+
+
   .close,.hamb{display:block}
+
+
 
   .hamb{margin-right:0}
 
+
+
   main{margin-left:0;width:100%}
+
+
 
   header{padding:0 18px}
 
+
+
   .content{padding:20px}
+
+
 
   .stats{grid-template-columns:repeat(2,1fr)}
 
+
+
   .grid2,.vehicle-grid{grid-template-columns:1fr}
+
+
 
   .branch-grid{grid-template-columns:1fr;max-width:360px}
 
+
+
   .welcome{align-items:flex-start;gap:12px;flex-direction:column}}
+
   @media(max-width:600px){header{height:72px}
+
+
 
   header h1{font-size:18px}
 
+
+
   .primary{padding:9px 10px}
+
+
 
   .content{padding:14px}
 
+
+
   .stats{gap:9px}
+
+
 
   .stat{padding:13px}
 
+
+
   .stat strong{font-size:19px}
+
+
 
   .stat-icon{width:34px;height:34px}
 
+
+
   .form-grid{grid-template-columns:1fr}
+
+
 
   .form-grid label.full{grid-column:auto}
 
+
+
   .plan{flex-direction:column;gap:13px}
+
+
 
   .toolbar{align-items:stretch;flex-direction:column}
 
+
+
   .search{width:100%}
+
+
 
   .attendance-card{align-items:flex-start;flex-direction:column}
 
+
+
   .att-buttons{width:100%}
+
+
 
   .att-buttons button{flex:1}
 
+
+
   .branch-screen{padding:25px}
 
+
+
   .hero h1{font-size:25px}}
-  .header-actions{display:flex;gap:8px;align-items:center}
+
+  /* Header action buttons such as refresh and New Student. */
+.header-actions{display:flex;gap:8px;align-items:center}
+
+
 
   .icon-btn{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;display:grid;place-items:center;color:#687381}
 
+
+
   .error-banner{margin:15px 34px 0;padding:11px 14px;border-radius:9px;background:#fff0ee;color:#b43f3f;font-size:12px}
+
+
 
   .loading{font-size:12px;color:#8b94a2;margin-bottom:12px}
 
+
+
   .vehicle-mini-icon{width:34px;height:34px;border-radius:9px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;flex:none}
+
+
 
   .configured{margin-left:auto;font-size:10px;color:#7d8793;background:#f5f6f8;padding:5px 8px;border-radius:99px}
 
+
+
   .duration{display:block;font:800 24px Manrope;margin-top:5px}
+
+
 
   .vehicle-note{border-top:1px solid var(--line);margin-top:15px;padding-top:12px;color:#7d8793;font-size:11px;line-height:1.5}
 
+
+
   .switch+.switch{margin-top:0}
 
-  .login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;margin:26px 0 10px}
+
+
+  /* Login form card. */
+.login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;margin:26px 0 10px}
+
+
 
   .login-card label{display:grid;gap:7px}
 
+
+
   .login-card label>span{font-size:11px;font-weight:700;color:#596473}
+
+
 
   .login-card input{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
 
+
+
   .login-card input:focus{border-color:#e5a486}
+
+
 
   .login-card .error-banner{margin:0}
 
+
+
   .login-card .primary{justify-content:center}
+
+
 
   .primary:disabled{opacity:.6;cursor:not-allowed}
 
+
+
 /* ===================== TRAINING SLOTS ===================== */
+
 .slots-header {
+
   gap: 20px;
+
 }
+
+
 
 .slots-header select {
+
   min-width: 180px;
+
   border: 1px solid var(--line);
+
   border-radius: 8px;
+
   padding: 10px 12px;
+
   background: #fff;
+
   color: var(--ink);
+
   outline: none;
+
 }
 
+
+
+/* Training-slot summary for available/booked time slots. */
 .slot-summary {
+
   background: #faf4f0;
+
   border-radius: 10px;
+
   padding: 12px 14px;
+
   margin-bottom: 14px;
+
   color: var(--muted);
+
   font-size: 12px;
+
 }
+
+
 
 .slot-summary b {
+
   color: var(--ink);
+
 }
 
+
+
+/* Vertical list of individual training slots. */
 .slot-list {
+
   display: grid;
+
   gap: 8px;
+
 }
+
+
 
 .slot-row {
+
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
+
   gap: 15px;
+
   border: 1px solid var(--line);
+
   border-radius: 9px;
+
   padding: 12px 14px;
+
 }
 
-.slot-row.free {
+
+
+.slot-row\.free {
+
   background: #fbfffd;
+
 }
 
-.slot-row.booked {
+
+
+.slot-row\.booked {
+
   background: #fffaf7;
+
 }
+
+
 
 .slot-time {
+
   display: flex;
+
   align-items: center;
+
   gap: 9px;
+
   font-size: 12px;
+
 }
+
+
 
 .slot-time svg {
+
   color: var(--accent);
+
 }
+
+
 
 .slot-status {
+
   display: inline-flex;
+
   align-items: center;
+
   border-radius: 99px;
+
   padding: 5px 9px;
+
   font-size: 10px;
+
   font-weight: 800;
+
 }
+
+
 
 .free-status {
+
   background: #eaf7f1;
+
   color: var(--green);
+
 }
+
+
 
 .booked-status {
+
   background: #fff0e9;
+
   color: #a94c25;
+
 }
+
+
 
 .slot-note {
+
   margin-top: 16px;
+
   padding: 12px 14px;
+
   border-left: 3px solid var(--accent);
+
   background: #fafafa;
+
   color: var(--muted);
+
   font-size: 11px;
+
   line-height: 1.5;
+
 }
 
+
+
+/* Grid of selectable training time slots. */
 .slot-grid {
+
   display: grid;
+
   grid-template-columns: repeat(4, minmax(0, 1fr));
+
   gap: 8px;
+
 }
+
+
 
 .slot-option {
+
   min-height: 62px;
+
   border: 1px solid var(--line);
+
   background: #fff;
+
   border-radius: 9px;
+
   padding: 9px 10px;
+
   text-align: left;
+
   display: flex;
+
   flex-direction: column;
+
   justify-content: space-between;
+
   gap: 5px;
+
   color: var(--ink);
+
 }
+
+
 
 .slot-option:hover:not(:disabled) {
+
   border-color: var(--accent2);
+
   background: #fffaf7;
+
 }
+
+
 
 .slot-option.selected {
+
   border: 2px solid var(--accent);
+
   background: #fff4ee;
+
   padding: 8px 9px;
+
 }
+
+
 
 .slot-option.occupied,
+
 .slot-option:disabled {
+
   background: #f4f5f7;
+
   color: #a0a7b2;
+
   cursor: not-allowed;
+
 }
+
+
 
 .slot-option span {
+
   font-size: 11px;
+
   font-weight: 800;
+
 }
+
+
 
 .slot-option small {
+
   display: flex;
+
   align-items: center;
+
   gap: 3px;
+
   color: var(--green);
+
   font-size: 9px;
+
   font-weight: 700;
+
 }
+
+
 
 .slot-option.occupied small {
+
   color: #a94c25;
+
 }
+
+
 
 .slot-help {
+
   border: 1px dashed var(--line);
+
   border-radius: 9px;
+
   padding: 13px;
+
   color: var(--muted);
+
   font-size: 11px;
+
 }
+
+
 
 .slot-inline {
+
   display: block;
+
   color: var(--accent) !important;
+
   font-size: 10px !important;
+
   margin-top: 4px !important;
+
 }
+
+
 
 @media (max-width: 900px) {
+
   .slot-grid {
+
     grid-template-columns: repeat(2, minmax(0, 1fr));
+
   }
+
+
 
   .slots-header {
+
     align-items: flex-start;
+
     flex-direction: column;
+
   }
+
 }
 
+
+
 @media (max-width: 600px) {
+
   .slot-grid {
+
     grid-template-columns: 1fr;
+
   }
+
+
 
   .slot-row {
+
     align-items: flex-start;
+
     flex-direction: column;
+
   }
+
 }
+
+
 
 /* Slots overview: all vehicles side by side */
+
+/* Summary cards for each vehicle on the Training Slots page. */
 .slot-summary-row {
+
   display: grid;
+
   grid-template-columns: repeat(3, minmax(0, 1fr));
+
   gap: 10px;
+
   margin-bottom: 14px;
+
 }
+
+
 
 .slot-summary-row .slot-summary {
+
   margin-bottom: 0;
+
   border: 1px solid transparent;
+
   text-align: left;
+
   display: grid;
+
   gap: 3px;
+
 }
+
+
 
 .slot-summary-row .slot-summary.active {
+
   border-color: var(--accent);
+
   background: #fff4ee;
+
 }
+
+
 
 .slot-table td {
+
   padding: 8px;
+
   white-space: nowrap;
+
 }
+
+
 
 .slot-table td.slot-time {
+
   display: table-cell;
+
 }
+
+
 
 .slot-table td.slot-time svg {
+
   vertical-align: -3px;
+
   margin-right: 7px;
+
 }
+
+
 
 .slot-table button.booked-status {
+
   border: 0;
+
   cursor: pointer;
+
 }
+
+
 
 .slot-table button.booked-status:hover {
+
   background: #ffe2d4;
+
 }
+
+
 
 @media (max-width: 600px) {
+
   .slot-summary-row {
+
     grid-template-columns: 1fr;
+
   }
+
 }
+
+
 
 /* Student deletion */
+
+/* Student-row actions such as delete/open profile. */
 .row-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+
 .icon-danger{width:34px;height:34px;border:1px solid #f0caca;background:#fff;border-radius:8px;color:var(--red);display:grid;place-items:center}
+
 .icon-danger:hover{background:#fdecec}
+
 .profile-actions{display:flex;align-items:center;gap:12px;margin-left:auto}
+
 .danger-button{border:1px solid #efc3c3;background:#fff;color:var(--red);border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:7px;font-weight:700}
+
 .danger-button:hover{background:#fdecec}
+
 .danger-button:disabled,.outline:disabled{opacity:.6;cursor:not-allowed}
+
+/* Confirmation modal overlay used before destructive actions. */
 .modal-backdrop{position:fixed;inset:0;background:rgba(16,24,40,.48);display:grid;place-items:center;padding:20px;z-index:100}
+
 .confirm-modal{width:min(460px,100%);background:#fff;border-radius:16px;padding:26px;box-shadow:0 24px 70px rgba(0,0,0,.22)}
+
 .confirm-icon{width:46px;height:46px;border-radius:12px;background:#fdecec;color:var(--red);display:grid;place-items:center;margin-bottom:14px}
+
 .confirm-modal h3{font-size:21px;margin-bottom:8px}
+
 .confirm-modal p{font-size:14px;line-height:1.5}
+
 .confirm-warning{font-size:12px!important;color:#a33b3b!important;background:#fff6f6;border-radius:9px;padding:10px;margin-top:12px}
+
 .confirm-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;flex-wrap:wrap}
+
 @media(max-width:700px){.profile-actions{margin-left:0;align-items:flex-start;flex-direction:column}.row-actions{justify-content:flex-start}.confirm-actions button{flex:1;justify-content:center}}
 
+
+
 /* Payment completion */
+
+/* Badge showing an outstanding payment amount. */
 .payment-due-badge {
+
   display: inline-flex;
+
   align-items: center;
+
   padding: 7px 11px;
+
   border-radius: 999px;
+
   background: #fff1eb;
+
   color: #c84f1f;
+
   font-weight: 700;
+
   font-size: 13px;
+
 }
+
+/* Payment entry controls and submit action. */
 .payment-action {
+
   display: flex;
+
   align-items: end;
+
   gap: 12px;
+
   margin-top: 18px;
+
   padding-top: 18px;
+
   border-top: 1px solid #eceff3;
+
 }
+
 .payment-action label {
+
   display: grid;
+
   gap: 7px;
+
   min-width: 230px;
+
   margin: 0;
+
 }
+
 .payment-action label span {
+
   font-size: 13px;
+
   color: #64748b;
+
 }
+
 .payment-action input {
+
   width: 100%;
+
 }
+
 .payment-paid {
+
   margin-top: 18px;
+
   padding: 12px 14px;
+
   border-radius: 10px;
+
   background: #edf9f2;
+
   color: #15803d;
+
   font-weight: 700;
+
 }
+
 @media (max-width: 640px) {
+
   .payment-action {
+
     align-items: stretch;
+
     flex-direction: column;
+
   }
+
   .payment-action label {
+
     min-width: 0;
+
   }
+
 }
+
+
 
 /* Simple full-balance payment action */
+
 .payment-action-single {
+
   justify-content: space-between;
+
   align-items: center;
+
 }
+
 .payment-amount-info {
+
   display: grid;
+
   gap: 4px;
+
 }
+
 .payment-amount-info span {
+
   font-size: 13px;
+
   color: #64748b;
+
 }
+
 .payment-amount-info strong {
+
   font-size: 22px;
+
 }
+
 .paid-button {
+
   min-width: 150px;
+
 }
+
 @media (max-width: 640px) {
+
   .payment-action-single {
+
     align-items: stretch;
+
     flex-direction: column;
+
   }
+
   .paid-button {
+
     width: 100%;
+
   }
+
 }
+
+
 
 /* ============================================================
-   RESPONSIVE FIX ONLY — ORIGINAL THEME PRESERVED
-   Do not change colours, fonts, shadows, borders or functionality.
-   These rules only correct widths, wrapping and spacing by screen size.
+
+/* ============================================================
+   RESPONSIVE FIX — KEEP ORIGINAL COLOURS / FONTS / THEME
+   Only layout and table sizing are changed in this section.
    ============================================================ */
 
-/* Keep the app within the viewport; allow flex children to shrink. */
-html,
-body,
-#root {
+/* Keep the app inside the viewport without changing its theme. */
+html, body, #root {
   width: 100%;
   min-height: 100%;
-}
-
+ }
 body {
   overflow-x: hidden;
-}
-
+ }
 .app {
   width: 100%;
   min-width: 0;
-}
-
+ }
 main {
   min-width: 0;
 }
 
-/* Prevent long headings and student details from forcing horizontal overflow. */
+/* Allow text and flex children to shrink instead of pushing layout off-screen. */
 header,
 .header-left,
 .header-actions,
@@ -793,49 +1580,76 @@ header,
 .profile-main,
 .person,
 .attendance-card,
-.toolbar {
+.toolbar,
+.table-wrap {
   min-width: 0;
 }
-
 header h1,
 header p,
 .profile-main h2,
 .profile-main p,
 .person b,
-.person span,
-.history-card b,
-.history-card span {
+.person span {
   overflow-wrap: anywhere;
 }
 
-/* Desktop: main content must occupy all space to the right of the sidebar.
-   Use viewport width rather than a parent width, which can be unexpectedly narrow. */
+/* Students/history tables: keep columns readable and scroll horizontally on phones.
+   Without a minimum table width, each column becomes extremely narrow and text
+   breaks letter-by-letter, as in the screenshot. */
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.table-wrap table {
+  width: 100%;
+  min-width: 760px;
+  table-layout: auto;
+}
+.table-wrap th,
+.table-wrap td {
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  vertical-align: middle;
+}
+.table-wrap td:first-child {
+  min-width: 145px;
+}
+.table-wrap td:nth-child(2),
+.table-wrap td:nth-child(3),
+.table-wrap td:nth-child(4),
+.table-wrap td:nth-child(5),
+.table-wrap td:nth-child(6),
+.table-wrap td:nth-child(7) {
+  min-width: 72px;
+}
+
+/* Desktop: keep the sidebar fixed and use the remaining viewport for main content. */
 @media (min-width: 901px) {
   .sidebar {
     width: 245px;
   }
-
   main {
     display: block;
     margin-left: 245px;
-    width: calc(100vw - 245px);
+    width: calc(100% - 245px);
     max-width: none;
   }
-
   header {
     width: 100%;
   }
-
   .header-left {
     flex: 1 1 auto;
   }
-
   .header-actions {
     flex: 0 0 auto;
   }
 }
 
-/* Tablet: sidebar becomes an off-canvas menu; main uses the full screen width. */
+/* Tablet: use the existing slide-out sidebar and let main content take full width. */
 @media (max-width: 900px) {
   .sidebar {
     width: min(280px, 86vw);
@@ -846,18 +1660,15 @@ header p,
     overflow-x: hidden;
     z-index: 30;
   }
-
   .sidebar.open {
     transform: translateX(0);
   }
-
   main {
     display: block;
     margin-left: 0;
     width: 100%;
     max-width: 100%;
   }
-
   header {
     height: auto;
     min-height: 72px;
@@ -865,86 +1676,70 @@ header p,
     gap: 12px;
     flex-wrap: wrap;
   }
-
-  /* Give title/branch its own row, so the buttons cannot cover it. */
   .header-left {
     flex: 1 1 100%;
   }
-
   .header-actions {
     flex: 1 1 100%;
     width: 100%;
     justify-content: flex-end;
   }
-
   .content {
     width: 100%;
     max-width: 100%;
-    padding: 22px;
+    padding: 20px;
   }
-
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .grid2,
   .vehicle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .profile-head {
     align-items: flex-start;
     flex-wrap: wrap;
   }
-
   .profile-main {
     flex: 1 1 220px;
   }
-
   .profile-actions {
     margin-left: 0;
     flex-wrap: wrap;
   }
-
   .slot-summary-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile: stack header actions and make cards/controls fit the phone width. */
+/* Phone: separate header title and actions; stack cards and controls. */
 @media (max-width: 600px) {
   header {
     padding: 10px 12px;
     gap: 10px;
   }
-
   .header-left {
     gap: 8px;
   }
-
   .header-left h1 {
     font-size: 18px;
     line-height: 1.25;
   }
-
   .header-left p {
     font-size: 12px;
     line-height: 1.35;
   }
-
   .header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
     width: 100%;
   }
-
   .header-actions .icon-btn {
     width: 42px;
     height: 42px;
     flex: 0 0 42px;
   }
-
   .header-actions .primary,
   .header-actions .outline {
     min-width: 0;
@@ -954,93 +1749,75 @@ header p,
     text-align: center;
     white-space: normal;
   }
-
   .content {
     padding: 12px;
   }
-
   .panel {
     padding: 15px;
   }
-
   .form-panel {
     padding: 16px;
   }
-
   .welcome {
     align-items: flex-start;
     gap: 12px;
     flex-direction: column;
   }
-
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
-
   .stat {
     padding: 12px;
     gap: 9px;
+    min-width: 0;
   }
-
   .stat-icon {
     width: 34px;
     height: 34px;
     flex: 0 0 34px;
   }
-
   .stat strong {
     font-size: 19px;
     overflow-wrap: anywhere;
   }
-
   .grid2,
   .vehicle-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-
   .toolbar {
     align-items: stretch;
     flex-direction: column;
     gap: 10px;
   }
-
   .search {
     width: 100%;
     max-width: 100%;
   }
-
   .form-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-
   .form-grid label.full {
     grid-column: auto;
   }
-
   .plan {
     flex-wrap: wrap;
     gap: 14px;
   }
-
   .profile-head {
     align-items: flex-start;
     gap: 12px;
     flex-wrap: wrap;
   }
-
   .profile-main {
     flex: 1 1 calc(100% - 76px);
   }
-
   .profile-main h2 {
     font-size: 20px;
   }
-
   .profile-main p {
     line-height: 1.5;
   }
-
   .profile-actions {
     flex: 1 1 100%;
     width: 100%;
@@ -1051,36 +1828,30 @@ header p,
     flex-wrap: wrap;
     gap: 10px;
   }
-
   .danger-button {
     max-width: 100%;
     white-space: normal;
   }
-
   .attendance-card {
     align-items: stretch;
     flex-direction: column;
     gap: 12px;
     padding: 12px;
   }
-
   .person {
     width: 100%;
     align-items: flex-start;
   }
-
   .person > div:nth-child(2) {
     flex: 1 1 auto;
     min-width: 0;
   }
-
   .att-buttons {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
     gap: 8px;
   }
-
   .att-buttons button {
     flex: 1 1 0;
     min-width: 0;
@@ -1089,142 +1860,190 @@ header p,
     line-height: 1.25;
     white-space: normal;
   }
-
   .branch-screen {
     padding: 24px 14px;
   }
-
   .hero h1 {
     font-size: 25px;
   }
-
   .branch-grid {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
     max-width: 420px;
   }
-
   .branch-card {
     width: 100%;
     min-width: 0;
   }
-
   .slot-summary-row {
     grid-template-columns: minmax(0, 1fr);
   }
-
   .slot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .slot-row {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
   }
-
   .slot-time {
     flex-wrap: wrap;
   }
-
-  .table-wrap {
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
   .payment-action,
   .payment-action-single {
     align-items: stretch;
     flex-direction: column;
   }
-
   .payment-action label {
     min-width: 0;
   }
-
   .paid-button {
     width: 100%;
   }
-
   .confirm-modal {
     padding: 20px;
   }
-
   .confirm-actions {
     flex-direction: column;
   }
-
   .confirm-actions button {
     width: 100%;
     justify-content: center;
   }
-
   .error-banner {
     margin: 12px;
   }
 }
 
-/* Very narrow phones: reduce spacing, not the theme. */
+/* Extra-narrow phones: use less padding while preserving the original palette. */
 @media (max-width: 380px) {
   header {
     padding: 9px;
   }
-
   .header-left {
     gap: 6px;
   }
-
   .header-left h1 {
     font-size: 16px;
   }
-
   .header-actions {
     gap: 7px;
   }
-
   .content {
     padding: 9px;
   }
-
   .panel,
   .form-panel {
     padding: 12px;
   }
-
   .profile-head {
     padding: 10px;
     gap: 9px;
   }
-
   .profile-main {
     flex-basis: calc(100% - 60px);
   }
-
   .profile-main h2 {
     font-size: 18px;
   }
-
   .profile-actions {
     flex-direction: column;
     align-items: stretch;
   }
-
   .danger-button {
     width: 100%;
     justify-content: center;
   }
-
   .stat {
     padding: 9px;
     gap: 7px;
   }
-
   .att-buttons button {
     padding: 9px 4px;
     font-size: 10px;
   }
-
   .slot-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ============================================================
+   MOBILE STUDENT TABLE FIX
+   WHY: The Students page has several columns. On a phone,
+   forcing every column into the narrow screen makes names and
+   student IDs wrap one character per line. Keep the table
+   readable at its natural width and allow horizontal scrolling.
+   This does not change the app colours, fonts, or functionality.
+   ============================================================ */
+
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keep the desktop/tablet column proportions instead of squeezing
+   every column to fit a phone's width. */
+.table-wrap table {
+  width: 100%;
+  min-width: 850px;
+  table-layout: auto;
+}
+
+/* Prevent names, IDs, vehicle names, and status labels from
+   breaking into one letter per line. */
+.table-wrap th,
+.table-wrap td {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Student name cell: give the name and ID a usable minimum width.
+   Long values stay on one line; the table itself can scroll. */
+.table-wrap td:first-child {
+  min-width: 145px;
+}
+
+/* Keep the student name readable without forcing the column narrow. */
+.table-wrap td:first-child b,
+.table-wrap td:first-child span {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* On smaller screens, preserve the scrollable table instead of
+   stacking the table's columns into a broken vertical layout. */
+@media (max-width: 900px) {
+  .table-wrap {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table-wrap table {
+    min-width: 850px;
+  }
+}
+
+/* On phones, slightly reduce cell padding while retaining readability.
+   Users can swipe the table left/right to see the remaining columns. */
+@media (max-width: 600px) {
+  .table-wrap th {
+    padding: 9px 7px;
+    font-size: 10px;
+  }
+
+  .table-wrap td {
+    padding: 11px 7px;
+    font-size: 12px;
+  }
+
+  .table-wrap td:first-child {
+    min-width: 145px;
   }
 }
