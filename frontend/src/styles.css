@@ -1,694 +1,1602 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+/*
+ VASU DRIVING SCHOOL — CSS WITH EXPLANATORY COMMENTS
+
+ This file explains the styling in the CSS you shared.
+ It controls appearance (colours, fonts, spacing, cards, layout and responsive behaviour).
+ It does NOT add React functionality or insert the owner's photo by itself.
+
+ Quick customisation:
+ - Global colours are defined in :root near the top.
+ - Main font is set on body; heading font is set on h1, h2, h3.
+ - The branch-selection screen uses .branch-screen, .hero and .branch-card.
+ - Mobile/tablet layouts are controlled by @media rules.
+ - Keep a backup of the original stylesheet before replacing it.
+*/
+
+/* Load the DM Sans and Manrope fonts from Google Fonts. DM Sans is used for normal text; Manrope is used for headings. */
+@import url('https\://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+/* GLOBAL DESIGN VARIABLES: change these values to update the site's theme in one place. */
 :root {
-  --bg:#f7f8fa;
-  --card:#fff;
+
+    --bg:#f7f8fa;
+  --card:hsl(0, 61%, 68%);
   --ink:#17202a;
-  --muted:#697586;
-  --line:#e7e9ee;
-  --accent:#e36b35;
+  --muted:#20211d;
+  --line:#98a0b6;
+  --accent:#bb1313;
   --accent2:#f08a5b;
-  --green:#238b63;
-  --red:#c94b4b;
+  --green:#0e8557;
+  --red:#ca0f0f;
   --blue:#4667c9;
   --shadow:0 8px 30px rgba(20,30,45,.06)}
 
-  * {box-sizing:border-box}
 
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
+   /* Apply border-box sizing so padding and borders are included in element width/height calculations. */
+   * {box-sizing:border-box}
 
-  button,input,select,textarea{font:inherit}
 
-  button{cursor:pointer}
 
-  h1,h2,h3{font-family:Manrope;margin:0}
+   /* Base page style: remove default margin, set the page background and text colour, and choose the main font. */
+   body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
 
-  p{margin:5px 0;color:var(--muted)}
 
-  .app{display:flex;min-height:100vh}
 
-  .sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
+   /* Make form controls inherit the same font as the rest of the site. */
+   button,input,select,textarea{font:inherit}
 
-  .brand{display:flex;align-items:center;gap:11px;padding:0 9px 22px}
 
-  .brand b{display:block;font:800 18px Manrope}
 
-  .brand span{font-size:11px;color:var(--muted)}
+   /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+   button{cursor:pointer}
 
-  .logo{width:37px;height:37px;border-radius:12px;background:var(--ink);color:white;display:grid;place-items:center;font:800 19px Manrope}
 
-  .logo.big{width:62px;height:62px;font-size:30px;border-radius:19px;margin:auto}
 
-  .close{display:none;border:0;background:none;margin-left:auto}
+   /* Use the display font for headings and remove their default margin. */
+   h1,h2,h3{font-family:Manrope;margin:0}
 
-  .branch-pill{background:#f8f0eb;color:#a94c25;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
 
-  .sidebar nav{display:grid;gap:4px}
 
-  .sidebar nav button,.switch{border:0;background:none;padding:11px 12px;border-radius:9px;text-align:left;color:#657080;display:flex;gap:11px;align-items:center;font-weight:600}
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   p{margin:5px 0;color:var(--muted)}
 
-  .sidebar nav button.active{background:#fff0e9;color:#c65325}
 
-  .switch{margin-top:auto}
 
-  .sidebar nav button:hover,.switch:hover{background:#f6f7f8}
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .app{display:flex;min-height:100vh}
 
-  main{margin-left:245px;width:calc(100% - 245px)}
 
-  header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
 
-  header h1{font-size:22px}
+   /* Left navigation panel: fixed to the left side and full screen height. */
+   .sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
 
-  header p{font-size:12px}
 
-  .primary,.outline{border:0;border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:7px;font-weight:700}
 
-  .primary{background:var(--accent);color:#fff}
+   /* Layout for the brand/logo and school name inside the sidebar. */
+   .brand{display:flex;align-items:center;gap:11px;padding:0 9px 22px}
 
-  .primary:hover{background:#cc5727}
 
-  .outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
 
-  .content{padding:30px 34px;max-width:1400px;margin:auto}
+   /* Style the bold school name in the sidebar. */
+   .brand b{display:block;font:800 18px Manrope}
 
-  .welcome{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}
 
-  .eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#a4acb8}
 
-  .welcome h2{font-size:26px}
+   /* Style the smaller subtitle below the school name. */
+   .brand span{font-size:11px;color:var(--muted)}
 
-  .welcome p{font-size:13px}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
 
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
+   /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
+   .logo{width: 37px;height:37px;border-radius:12px;background:var(--ink);color:white;display:grid;place-items:center;font:800 19px Manrope}
 
-  .stat-icon{width:40px;height:40px;border-radius:10px;background:#fff1e9;color:var(--accent);display:grid;place-items:center}
 
-  .stat span{display:block;color:var(--muted);font-size:12px}
 
-  .stat strong{font:800 23px Manrope;display:block;margin-top:3px}
+   /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
+   .logo.big{width:80px;height:62px;font-size:30px;border-radius:19px;margin:auto}
 
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-  .panel,.form-panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
 
-  .panel{padding:20px}
+   /* Close control for the mobile sidebar; hidden on desktop. */
+   .close{display:none;border:0;background:none;margin-left:auto}
 
-  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 
-  .panel-head h3{font-size:16px}
 
-  .link{border:0;background:none;color:var(--accent);font-weight:700}
+   /* Small label showing which branch is currently selected. */
+   .branch-pill{background:#f8f0eb;color:#a94c25;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
 
-  .quick{display:grid;gap:8px}
 
-  .quick button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:13px;text-align:left;display:grid;grid-template-columns:25px 1fr;align-items:center}
 
-  .quick svg{grid-row:span 2;color:var(--accent)}
+   /* Arrange sidebar navigation buttons vertically. */
+   .sidebar nav{display:grid;gap:4px}
 
-  .quick b{font-size:13px}
 
-  .quick span{font-size:11px;color:var(--muted);margin-top:2px}
 
-  .mini,.person,.history-card,.attendance-card{display:flex;align-items:center;gap:11px}
+   /* Arrange sidebar navigation buttons vertically. */
+   .sidebar nav button,.switch{border:0;background:none;padding:11px 12px;border-radius:9px;text-align:left;color:#111213;display:flex;gap:11px;align-items:center;font-weight:600}
 
-  .mini{padding:11px 0;border-bottom:1px solid var(--line)}
 
-  .mini:last-child{border:0}
 
-  .mini>div:nth-child(2),.person>div:nth-child(2){flex:1}
+   /* Arrange sidebar navigation buttons vertically. */
+   .sidebar nav button.active{background:#fff0e9;color:hsl(0, 93%, 6%)}
 
-  .mini b,.person b,.history-card b{display:block;font-size:13px}
 
-  .mini span,.person span,.history-card span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
 
-  .avatar{width:35px;height:35px;border-radius:10px;background:#f2eee9;display:grid;place-items:center;color:#9b5535;font-weight:800;flex:none}
+   /* Style the branch/logout switch control and push it toward the bottom of the sidebar. */
+   .switch{margin-top:auto}
 
-  .avatar.large{width:60px;height:60px;font-size:23px}
 
-  .badge{padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800}
 
-  .badge.active{background:#eaf7f1;color:#238b63}
+   /* Arrange sidebar navigation buttons vertically. */
+   .sidebar nav button:hover,.switch:hover{background:hsl(0, 4%, 64%)}
 
-  .badge.completed{background:#edf0fb;color:#4667c9}
 
-  .badge.on{background:#fff4d9;color:#9b6b00}
 
-  .badge.cancelled{background:#fdecec;color:#b43f3f}
+   /* Main page area: offset it so it begins to the right of the fixed sidebar. */
+   main{margin-left:245px;width:calc(100% - 245px)}
 
-  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}
 
-  .search{border:1px solid var(--line);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;width:min(470px,100%)}
 
-  .search input{border:0;outline:0;width:100%;font-size:13px}
+   /* Top header: sticky while scrolling, with the page title and actions aligned horizontally. */
+   header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
 
-  .table-wrap{overflow:auto}
 
-  table{width:100%;border-collapse:collapse}
 
-  th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:#8b94a2;text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+   header h1{font-size:22px}
 
-  td{padding:13px 8px;border-bottom:1px solid #f0f1f4;font-size:12px}
 
-  tbody tr{cursor:pointer}
 
-  tbody tr:hover{background:#fafafa}
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   header p{font-size:12px}
 
-  .progress{width:105px}
 
-  .progress>div{display:flex;justify-content:flex-end;font-size:10px;color:var(--muted)}
 
-  .progress i{height:5px;background:#eceef2;border-radius:9px;display:block;margin-top:4px}
+   /* Primary action button, such as Add Student or Save. */
+   .primary,.outline{border:0;border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:7px;font-weight:700}
 
-  .progress em{display:block;height:100%;background:var(--accent);border-radius:9px}
 
-  .form-panel{padding:27px}
 
-  .form-title{display:flex;gap:17px;align-items:flex-start;margin-bottom:27px}
+   /* Primary action button, such as Add Student or Save. */
+   .primary{background:var(--accent);color:#fff}
 
-  .back{border:0;background:none;padding:3px;color:#667180;display:flex;gap:6px;align-items:center;font-weight:600}
 
-  .form-title h2{font-size:21px}
 
-  .form-title p{font-size:12px}
+   /* Primary action button, such as Add Student or Save. */
+   .primary:hover{background:#cc5727}
 
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:850px}
 
-  .form-grid label{display:grid;gap:7px}
 
-  .form-grid label.full{grid-column:1/-1}
+   /* Secondary button style with a border and light background. */
+   .outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
 
-  .form-grid label>span{font-size:11px;font-weight:700;color:#596473}
 
-  .form-grid input,.form-grid select,.form-grid textarea,.date{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
 
-  .form-grid textarea{min-height:85px;resize:vertical}
+   /* Main content spacing and maximum readable width. */
+   .content{padding:30px 34px;max-width:1400px;margin:auto}
 
-  .form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus{border-color:#e5a486}
 
-  .plan{display:flex;gap:35px;background:#faf4f0;border-radius:10px;padding:16px;margin:25px 0}
 
-  .plan span{display:block;font-size:10px;color:var(--muted)}
+   /* Dashboard welcome/title row layout. */
+   .welcome{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}
 
-  .plan b{display:block;font-size:13px;margin-top:4px}
 
-  .form-actions{display:flex;justify-content:flex-end;gap:10px}
 
-  .profile-head{display:flex;align-items:center;gap:15px;margin:18px 0}
+   /* Small uppercase label above a heading. */
+   .eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#a4acb8}
 
-  .profile-main{flex:1}
 
-  .profile-main h2{font-size:22px}
 
-  .profile-main p{font-size:12px}
+   /* Dashboard welcome/title row layout. */
+   .welcome h2{font-size:26px}
 
-  .attendance-list{display:grid}
 
-  .att-row{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px}
 
-  .att-row b{font-size:12px}
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .welcome p{font-size:13px}
 
-  .att-row select{border:1px solid var(--line);padding:7px;border-radius:7px;font-size:11px}
 
-  .attendance-table{display:grid;gap:9px}
 
-  .attendance-card{justify-content:space-between;border:1px solid var(--line);padding:13px;border-radius:10px}
+   /* Grid layout for the dashboard summary cards. */
+   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
 
-  .att-buttons{display:flex;gap:6px;flex-wrap:wrap}
 
-  .att-buttons button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 10px;font-size:10px;font-weight:700}
 
-  .att-buttons button.selected.present{background:#eaf7f1;border-color:#b8e2cf;color:#238b63}
+   /* Individual dashboard statistic card. */
+   .stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
 
-  .att-buttons button.selected.absent{background:#fdecec;border-color:#efc3c3;color:#b43f3f}
 
-  .att-buttons button.selected.rescheduled{background:#fff4d9;border-color:#efd99b;color:#956900}
 
-  .history-card{padding:15px 5px;border-bottom:1px solid var(--line);cursor:pointer}
+   .stat-icon{width:40px;height:40px;border-radius:10px;background:#fff1e9;color:var(--accent);display:grid;place-items:center}
 
-  .history-card svg:last-child{margin-left:5px;color:#aab1bb}
 
-  .vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 
-  .vehicle-icon{width:45px;height:45px;border-radius:12px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;margin-bottom:15px}
+   .stat span{display:block;color:var(--muted);font-size:12px}
 
-  .vehicle h3{font-size:17px}
 
-  .vehicle p{font-size:11px}
 
-  .available,.occupied{display:inline-block;padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800;margin:13px 0}
+   .stat strong{font:800 23px Manrope;display:block;margin-top:3px}
 
-  .available{background:#eaf7f1;color:#238b63}
 
-  .occupied{background:#fff4d9;color:#9b6b00}
 
-  .vehicle-student{border-top:1px solid var(--line);padding:9px 0;font-size:12px}
+   /* Two-column layout used for side-by-side panels. */
+   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-  .vehicle-student span{float:right;color:var(--muted);font-size:10px}
 
-  .empty{text-align:center;padding:30px;color:#8b94a2;font-size:12px}
 
-  .hamb{display:none;border:0;background:none}
+   /* Shared white card/panel appearance. */
+   .panel,.form-panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
 
-  .header-left{display:flex;align-items:center;gap:12px;min-width:0}
 
-  .branch-screen{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top,#fff7f2,#f7f8fa 45%);padding:40px}
 
-  .hero{text-align:center}
+   /* Shared white card/panel appearance. */
+   .panel{padding:20px}
 
-  .hero h1{font-size:31px;margin-top:16px}
 
-  .hero p{font-size:13px}
 
-  .branch-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,360px));gap:18px;margin:30px 0}
+   /* Shared white card/panel appearance. */
+   .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 
-  .branch-card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px;text-align:left;display:flex;align-items:center;gap:17px;box-shadow:var(--shadow);transition:.2s}
 
-  .branch-card:hover{transform:translateY(-3px);border-color:#edb69e}
 
-  .branch-icon{width:52px;height:52px;border-radius:14px;background:#fff0e9;display:grid;place-items:center;font-size:25px}
+   /* Shared white card/panel appearance. */
+   .panel-head h3{font-size:16px}
 
-  .branch-card h2{font-size:17px}
 
-  .branch-card span{font-size:11px;color:var(--accent);display:flex;align-items:center;gap:4px;margin-top:5px}
 
-  .branch-screen small{color:#9aa2ad;font-size:10px}
-  @media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.2s}
+   .link{border:0;background:none;color:var(--accent);font-weight:700}
 
-  .sidebar.open{transform:translateX(0)}
 
-  .close,.hamb{display:block}
 
-  .hamb{margin-right:0}
+   /* Layout for dashboard quick-action links. */
+   .quick{display:grid;gap:8px}
 
-  main{margin-left:0;width:100%}
 
-  header{padding:0 18px}
 
-  .content{padding:20px}
+   /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+   .quick button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:13px;text-align:left;display:grid;grid-template-columns:25px 1fr;align-items:center}
 
-  .stats{grid-template-columns:repeat(2,1fr)}
 
-  .grid2,.vehicle-grid{grid-template-columns:1fr}
 
-  .branch-grid{grid-template-columns:1fr;max-width:360px}
+   /* Layout for dashboard quick-action links. */
+   .quick svg{grid-row:span 2;color:var(--accent)}
 
-  .welcome{align-items:flex-start;gap:12px;flex-direction:column}}
-  @media(max-width:600px){header{height:72px}
 
-  header h1{font-size:18px}
 
-  .primary{padding:9px 10px}
+   /* Layout for dashboard quick-action links. */
+   .quick b{font-size:13px}
 
-  .content{padding:14px}
 
-  .stats{gap:9px}
 
-  .stat{padding:13px}
+   /* Layout for dashboard quick-action links. */
+   .quick span{font-size:11px;color:var(--muted);margin-top:2px}
 
-  .stat strong{font-size:19px}
 
-  .stat-icon{width:34px;height:34px}
 
-  .form-grid{grid-template-columns:1fr}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini,.person,.history-card,.attendance-card{display:flex;align-items:center;gap:11px}
 
-  .form-grid label.full{grid-column:auto}
 
-  .plan{flex-direction:column;gap:13px}
 
-  .toolbar{align-items:stretch;flex-direction:column}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini{padding:11px 0;border-bottom:1px solid var(--line)}
 
-  .search{width:100%}
 
-  .attendance-card{align-items:flex-start;flex-direction:column}
 
-  .att-buttons{width:100%}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini:last-child{border:0}
 
-  .att-buttons button{flex:1}
 
-  .branch-screen{padding:25px}
 
-  .hero h1{font-size:25px}}
-  .header-actions{display:flex;gap:8px;align-items:center}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini>div:nth-child(2),.person>div:nth-child(2){flex:1}
 
-  .icon-btn{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;display:grid;place-items:center;color:#687381}
 
-  .error-banner{margin:15px 34px 0;padding:11px 14px;border-radius:9px;background:#fff0ee;color:#b43f3f;font-size:12px}
 
-  .loading{font-size:12px;color:#8b94a2;margin-bottom:12px}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini b,.person b,.history-card b{display:block;font-size:13px}
 
-  .vehicle-mini-icon{width:34px;height:34px;border-radius:9px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;flex:none}
 
-  .configured{margin-left:auto;font-size:10px;color:#7d8793;background:#f5f6f8;padding:5px 8px;border-radius:99px}
 
-  .duration{display:block;font:800 24px Manrope;margin-top:5px}
+   /* Compact row layout for small people/history/attendance summaries. */
+   .mini span,.person span,.history-card span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
 
-  .vehicle-note{border-top:1px solid var(--line);margin-top:15px;padding-top:12px;color:#7d8793;font-size:11px;line-height:1.5}
 
-  .switch+.switch{margin-top:0}
 
-  .login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;margin:26px 0 10px}
+   /* Initials/avatar placeholder styling. */
+   .avatar{width:35px;height:35px;border-radius:10px;background:#f2eee9;display:grid;place-items:center;color:#9b5535;font-weight:800;flex:none}
 
-  .login-card label{display:grid;gap:7px}
 
-  .login-card label>span{font-size:11px;font-weight:700;color:#596473}
 
-  .login-card input{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
+   /* Initials/avatar placeholder styling. */
+   .avatar.large{width:60px;height:60px;font-size:23px}
 
-  .login-card input:focus{border-color:#e5a486}
 
-  .login-card .error-banner{margin:0}
 
-  .login-card .primary{justify-content:center}
+   /* Small rounded status label, such as active or completed. */
+   .badge{padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800}
 
-  .primary:disabled{opacity:.6;cursor:not-allowed}
 
+
+   /* Small rounded status label, such as active or completed. */
+   .badge.active{background:#eaf7f1;color:#238b63}
+
+
+
+   /* Small rounded status label, such as active or completed. */
+   .badge.completed{background:#edf0fb;color:#4667c9}
+
+
+
+   /* Small rounded status label, such as active or completed. */
+   .badge.on{background:#fff4d9;color:#9b6b00}
+
+
+
+   /* Small rounded status label, such as active or completed. */
+   .badge.cancelled{background:#fdecec;color:#b43f3f}
+
+
+
+   /* Row containing search and page-level controls. */
+   .toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:17px}
+
+
+
+   /* Search field container and input styling. */
+   .search{border:1px solid var(--line);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;width:min(470px,100%)}
+
+
+
+   /* Search field container and input styling. */
+   .search input{border:0;outline:0;width:100%;font-size:13px}
+
+
+
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .table-wrap{overflow:auto}
+
+
+
+   /* Remove spacing between table cells and let the table use the available width. */
+   table{width:100%;border-collapse:collapse}
+
+
+
+   /* Table header appearance. */
+   th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:#8b94a2;text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+
+
+
+   /* Table cell spacing and text size. */
+   td{padding:13px 8px;border-bottom:1px solid #f0f1f4;font-size:12px}
+
+
+
+   tbody tr{cursor:pointer}
+
+
+
+   tbody tr:hover{background:#fafafa}
+
+
+
+   /* Progress indicator width and label/bar styling. */
+   .progress{width:105px}
+
+
+
+   /* Progress indicator width and label/bar styling. */
+   .progress>div{display:flex;justify-content:flex-end;font-size:10px;color:var(--muted)}
+
+
+
+   /* Progress indicator width and label/bar styling. */
+   .progress i{height:5px;background:#eceef2;border-radius:9px;display:block;margin-top:4px}
+
+
+
+   /* Progress indicator width and label/bar styling. */
+   .progress em{display:block;height:100%;background:var(--accent);border-radius:9px}
+
+
+
+   /* White card that contains a form. */
+   .form-panel{padding:27px}
+
+
+
+   /* Form title row, including back button and explanatory text. */
+   .form-title{display:flex;gap:17px;align-items:flex-start;margin-bottom:27px}
+
+
+
+   .back{border:0;background:none;padding:3px;color:#667180;display:flex;gap:6px;align-items:center;font-weight:600}
+
+
+
+   /* Form title row, including back button and explanatory text. */
+   .form-title h2{font-size:21px}
+
+
+
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .form-title p{font-size:12px}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:850px}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid label{display:grid;gap:7px}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid label.full{grid-column:1/-1}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid label>span{font-size:11px;font-weight:700;color:#596473}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid input,.form-grid select,.form-grid textarea,.date{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid textarea{min-height:85px;resize:vertical}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus{border-color:#e5a486}
+
+
+
+   /* Training plan summary box. */
+   .plan{display:flex;gap:35px;background:#faf4f0;border-radius:10px;padding:16px;margin:25px 0}
+
+
+
+   .plan span{display:block;font-size:10px;color:var(--muted)}
+
+
+
+   .plan b{display:block;font-size:13px;margin-top:4px}
+
+
+
+   .form-actions{display:flex;justify-content:flex-end;gap:10px}
+
+
+
+   /* Student profile header layout. */
+   .profile-head{display:flex;align-items:center;gap:15px;margin:18px 0}
+
+
+
+   /* Main page area: offset it so it begins to the right of the fixed sidebar. */
+   .profile-main{flex:1}
+
+
+
+   .profile-main h2{font-size:22px}
+
+
+
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .profile-main p{font-size:12px}
+
+
+
+   /* Container for attendance rows. */
+   .attendance-list{display:grid}
+
+
+
+   /* Single attendance row layout. */
+   .att-row{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px}
+
+
+
+   /* Single attendance row layout. */
+   .att-row b{font-size:12px}
+
+
+
+   /* Single attendance row layout. */
+   .att-row select{border:1px solid var(--line);padding:7px;border-radius:7px;font-size:11px}
+
+
+
+   /* Remove spacing between table cells and let the table use the available width. */
+   .attendance-table{display:grid;gap:9px}
+
+
+
+   .attendance-card{justify-content:space-between;border:1px solid var(--line);padding:13px;border-radius:10px}
+
+
+
+   /* Layout and appearance for attendance status buttons. */
+   .att-buttons{display:flex;gap:6px;flex-wrap:wrap}
+
+
+
+   /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+   .att-buttons button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 10px;font-size:10px;font-weight:700}
+
+
+
+   /* Layout and appearance for attendance status buttons. */
+   .att-buttons button.selected.present{background:#eaf7f1;border-color:#b8e2cf;color:#238b63}
+
+
+
+   /* Layout and appearance for attendance status buttons. */
+   .att-buttons button.selected.absent{background:#fdecec;border-color:#efc3c3;color:#b43f3f}
+
+
+
+   /* Layout and appearance for attendance status buttons. */
+   .att-buttons button.selected.rescheduled{background:#fff4d9;border-color:#efd99b;color:#956900}
+
+
+
+   /* Clickable row used in student history. */
+   .history-card{padding:15px 5px;border-bottom:1px solid var(--line);cursor:pointer}
+
+
+
+   /* Clickable row used in student history. */
+   .history-card svg:last-child{margin-left:5px;color:#aab1bb}
+
+
+
+   /* Grid for vehicle cards. */
+   .vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+
+
+   /* Icon badge shown on each vehicle card. */
+   .vehicle-icon{width:45px;height:45px;border-radius:12px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;margin-bottom:15px}
+
+
+
+   .vehicle h3{font-size:17px}
+
+
+
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .vehicle p{font-size:11px}
+
+
+
+   /* Green label for an available vehicle/slot. */
+   .available,.occupied{display:inline-block;padding:5px 8px;border-radius:99px;font-size:10px;font-weight:800;margin:13px 0}
+
+
+
+   /* Green label for an available vehicle/slot. */
+   .available{background:#eaf7f1;color:#238b63}
+
+
+
+   /* Yellow label for an occupied vehicle/slot. */
+   .occupied{background:#fff4d9;color:#9b6b00}
+
+
+
+   .vehicle-student{border-top:1px solid var(--line);padding:9px 0;font-size:12px}
+
+
+
+   .vehicle-student span{float:right;color:var(--muted);font-size:10px}
+
+
+
+   .empty{text-align:center;padding:30px;color:#8b94a2;font-size:12px}
+
+
+
+   /* Mobile menu button; hidden on desktop and shown at tablet widths. */
+   .hamb{display:none;border:0;background:none}
+
+
+
+   .header-left{display:flex;align-items:center;gap:12px;min-width:0}
+
+
+
+   /* Full-screen branch selection page background and centering. */
+   .branch-screen{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top,#fff7f2,#f7f8fa 45%);padding:40px}
+
+
+
+   /* Centered school logo/title area on the branch-selection screen. */
+   .hero{text-align:center}
+
+
+
+   /* Centered school logo/title area on the branch-selection screen. */
+   .hero h1{font-size:31px;margin-top:16px}
+
+
+
+   /* Set paragraph spacing and the muted colour used for supporting text. */
+   .hero p{font-size:13px}
+
+
+
+   /* Two branch cards side by side; responsive rules later stack them on narrow screens. */
+   .branch-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,360px));gap:18px;margin:30px 0}
+
+
+
+   /* Appearance and hover animation for each branch selection card. */
+   .branch-card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:22px;text-align:left;display:flex;align-items:center;gap:17px;box-shadow:var(--shadow);transition:.2s}
+
+
+
+   /* Appearance and hover animation for each branch selection card. */
+   .branch-card:hover{transform:translateY(-3px);border-color:#edb69e}
+
+
+
+   .branch-icon{width:52px;height:52px;border-radius:14px;background:#fff0e9;display:grid;place-items:center;font-size:25px}
+
+
+
+   /* Appearance and hover animation for each branch selection card. */
+   .branch-card h2{font-size:17px}
+
+
+
+   /* Appearance and hover animation for each branch selection card. */
+   .branch-card span{font-size:11px;color:var(--accent);display:flex;align-items:center;gap:4px;margin-top:5px}
+
+
+
+   /* Full-screen branch selection page background and centering. */
+   .branch-screen small{color:#9aa2ad;font-size:10px}
+
+   /* Left navigation panel: fixed to the left side and full screen height. */
+   @media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.2s}
+
+
+
+   .sidebar.open{transform:translateX(0)}
+
+
+
+   /* Close control for the mobile sidebar; hidden on desktop. */
+   .close,.hamb{display:block}
+
+
+
+   /* Mobile menu button; hidden on desktop and shown at tablet widths. */
+   .hamb{margin-right:0}
+
+
+
+   /* Main page area: offset it so it begins to the right of the fixed sidebar. */
+   main{margin-left:0;width:100%}
+
+
+
+   /* Top header: sticky while scrolling, with the page title and actions aligned horizontally. */
+   header{padding:0 18px}
+
+
+
+   /* Main content spacing and maximum readable width. */
+   .content{padding:20px}
+
+
+
+   /* Grid layout for the dashboard summary cards. */
+   .stats{grid-template-columns:repeat(2,1fr)}
+
+
+
+   /* Two-column layout used for side-by-side panels. */
+   .grid2,.vehicle-grid{grid-template-columns:1fr}
+
+
+
+   /* Two branch cards side by side; responsive rules later stack them on narrow screens. */
+   .branch-grid{grid-template-columns:1fr;max-width:360px}
+
+
+
+   /* Dashboard welcome/title row layout. */
+   .welcome{align-items:flex-start;gap:12px;flex-direction:column}}
+
+   /* Top header: sticky while scrolling, with the page title and actions aligned horizontally. */
+   @media(max-width:600px){header{height:72px}
+
+
+
+   header h1{font-size:18px}
+
+
+
+   /* Primary action button, such as Add Student or Save. */
+   .primary{padding:9px 10px}
+
+
+
+   /* Main content spacing and maximum readable width. */
+   .content{padding:14px}
+
+
+
+   /* Grid layout for the dashboard summary cards. */
+   .stats{gap:9px}
+
+
+
+   /* Individual dashboard statistic card. */
+   .stat{padding:13px}
+
+
+
+   .stat strong{font-size:19px}
+
+
+
+   .stat-icon{width:34px;height:34px}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid{grid-template-columns:1fr}
+
+
+
+   /* Two-column form layout; mobile rules later collapse this to one column. */
+   .form-grid label.full{grid-column:auto}
+
+
+
+   /* Training plan summary box. */
+   .plan{flex-direction:column;gap:13px}
+
+
+
+   /* Row containing search and page-level controls. */
+   .toolbar{align-items:stretch;flex-direction:column}
+
+
+
+   /* Search field container and input styling. */
+   .search{width:100%}
+
+
+
+   .attendance-card{align-items:flex-start;flex-direction:column}
+
+
+
+   /* Layout and appearance for attendance status buttons. */
+   .att-buttons{width:100%}
+
+
+
+   /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+   .att-buttons button{flex:1}
+
+
+
+   /* Full-screen branch selection page background and centering. */
+   .branch-screen{padding:25px}
+
+
+
+   /* Centered school logo/title area on the branch-selection screen. */
+   .hero h1{font-size:25px}}
+
+   /* Horizontal group of buttons/icons in the header. */
+   .header-actions{display:flex;gap:8px;align-items:center}
+
+
+
+   .icon-btn{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;display:grid;place-items:center;color:#687381}
+
+
+
+   /* Error message panel. */
+   .error-banner{margin:15px 34px 0;padding:11px 14px;border-radius:9px;background:#fff0ee;color:#b43f3f;font-size:12px}
+
+
+
+   /* Muted text shown while data is loading. */
+   .loading{font-size:12px;color:#8b94a2;margin-bottom:12px}
+
+
+
+   .vehicle-mini-icon{width:34px;height:34px;border-radius:9px;background:#fff0e9;color:var(--accent);display:grid;place-items:center;flex:none}
+
+
+
+   .configured{margin-left:auto;font-size:10px;color:#7d8793;background:#f5f6f8;padding:5px 8px;border-radius:99px}
+
+
+
+   .duration{display:block;font:800 24px Manrope;margin-top:5px}
+
+
+
+   .vehicle-note{border-top:1px solid var(--line);margin-top:15px;padding-top:12px;color:#7d8793;font-size:11px;line-height:1.5}
+
+
+
+   /* Style the branch/logout switch control and push it toward the bottom of the sidebar. */
+   .switch+.switch{margin-top:0}
+
+
+
+   /* Login form card and its labels/inputs. */
+   .login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;margin:26px 0 10px}
+
+
+
+   /* Login form card and its labels/inputs. */
+   .login-card label{display:grid;gap:7px}
+
+
+
+   /* Login form card and its labels/inputs. */
+   .login-card label>span{font-size:11px;font-weight:700;color:#596473}
+
+
+
+   /* Login form card and its labels/inputs. */
+   .login-card input{border:1px solid var(--line);border-radius:8px;padding:11px 12px;outline:0;background:#fff}
+
+
+
+   /* Login form card and its labels/inputs. */
+   .login-card input:focus{border-color:#e5a486}
+
+
+
+   /* Error message panel. */
+   .login-card .error-banner{margin:0}
+
+
+
+   /* Primary action button, such as Add Student or Save. */
+   .login-card .primary{justify-content:center}
+
+
+
+   /* Primary action button, such as Add Student or Save. */
+   .primary:disabled{opacity:.6;cursor:not-allowed}
+
+
+
+/* TRAINING SLOTS SECTION: styles for the slot selector, status labels, and slot layout. */
 /* ===================== TRAINING SLOTS ===================== */
+
+/* Top header: sticky while scrolling, with the page title and actions aligned horizontally. */
 .slots-header {
-  gap: 20px;
+
+   gap: 20px;
+
 }
 
+
+
+/* Header row for the training-slots page. */
 .slots-header select {
-  min-width: 180px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: #fff;
-  color: var(--ink);
-  outline: none;
+
+   min-width: 180px;
+
+   border: 1px solid var(--line);
+
+   border-radius: 8px;
+
+   padding: 10px 12px;
+
+   background: #fff;
+
+   color: var(--ink);
+
+   outline: none;
+
 }
 
+
+
+/* Summary card showing slot/vehicle information. */
 .slot-summary {
-  background: #faf4f0;
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-size: 12px;
+
+   background: #faf4f0;
+
+   border-radius: 10px;
+
+   padding: 12px 14px;
+
+   margin-bottom: 14px;
+
+   color: var(--muted);
+
+   font-size: 12px;
+
 }
 
+
+
+/* Summary card showing slot/vehicle information. */
 .slot-summary b {
-  color: var(--ink);
+
+   color: var(--ink);
+
 }
 
+
+
+/* Vertical list of available/booked slots. */
 .slot-list {
-  display: grid;
-  gap: 8px;
+
+   display: grid;
+
+   gap: 8px;
+
 }
 
+
+
+/* Individual slot row. */
 .slot-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 12px 14px;
+
+   display: flex;
+
+   justify-content: space-between;
+
+   align-items: center;
+
+   gap: 15px;
+
+   border: 1px solid var(--line);
+
+   border-radius: 9px;
+
+   padding: 12px 14px;
+
 }
 
+
+
+/* Individual slot row. */
 .slot-row.free {
-  background: #fbfffd;
+
+   background: #fbfffd;
+
 }
 
+
+
+/* Individual slot row. */
 .slot-row.booked {
-  background: #fffaf7;
+
+   background: #fffaf7;
+
 }
 
+
+
+/* Time label inside a slot row. */
 .slot-time {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 12px;
+
+   display: flex;
+
+   align-items: center;
+
+   gap: 9px;
+
+   font-size: 12px;
+
 }
 
+
+
+/* Time label inside a slot row. */
 .slot-time svg {
-  color: var(--accent);
+
+   color: var(--accent);
+
 }
 
+
+
+/* Rounded status pill for a slot. */
 .slot-status {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 99px;
-  padding: 5px 9px;
-  font-size: 10px;
-  font-weight: 800;
+
+   display: inline-flex;
+
+   align-items: center;
+
+   border-radius: 99px;
+
+   padding: 5px 9px;
+
+   font-size: 10px;
+
+   font-weight: 800;
+
 }
+
+
 
 .free-status {
-  background: #eaf7f1;
-  color: var(--green);
+
+   background: #eaf7f1;
+
+   color: var(--green);
+
 }
+
+
 
 .booked-status {
-  background: #fff0e9;
-  color: #a94c25;
+
+   background: #fff0e9;
+
+   color: #a94c25;
+
 }
 
+
+
+/* Informational note below the slot list. */
 .slot-note {
-  margin-top: 16px;
-  padding: 12px 14px;
-  border-left: 3px solid var(--accent);
-  background: #fafafa;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
+
+   margin-top: 16px;
+
+   padding: 12px 14px;
+
+   border-left: 3px solid var(--accent);
+
+   background: #fafafa;
+
+   color: var(--muted);
+
+   font-size: 11px;
+
+   line-height: 1.5;
+
 }
 
+
+
+/* Grid of selectable training time slots. */
 .slot-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+
+   display: grid;
+
+   grid-template-columns: repeat(4, minmax(0, 1fr));
+
+   gap: 8px;
+
 }
 
+
+
+/* Individual selectable slot button. */
 .slot-option {
-  min-height: 62px;
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 9px;
-  padding: 9px 10px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 5px;
-  color: var(--ink);
+
+   min-height: 62px;
+
+   border: 1px solid var(--line);
+
+   background: #fff;
+
+   border-radius: 9px;
+
+   padding: 9px 10px;
+
+   text-align: left;
+
+   display: flex;
+
+   flex-direction: column;
+
+   justify-content: space-between;
+
+   gap: 5px;
+
+   color: var(--ink);
+
 }
 
+
+
+/* Individual selectable slot button. */
 .slot-option:hover:not(:disabled) {
-  border-color: var(--accent2);
-  background: #fffaf7;
+
+   border-color: var(--accent2);
+
+   background: #fffaf7;
+
 }
 
+
+
+/* Individual selectable slot button. */
 .slot-option.selected {
-  border: 2px solid var(--accent);
-  background: #fff4ee;
-  padding: 8px 9px;
+
+   border: 2px solid var(--accent);
+
+   background: #fff4ee;
+
+   padding: 8px 9px;
+
 }
 
+
+
+/* Yellow label for an occupied vehicle/slot. */
 .slot-option.occupied,
+
+/* Individual selectable slot button. */
 .slot-option:disabled {
-  background: #f4f5f7;
-  color: #a0a7b2;
-  cursor: not-allowed;
+
+   background: #f4f5f7;
+
+   color: #a0a7b2;
+
+   cursor: not-allowed;
+
 }
 
+
+
+/* Individual selectable slot button. */
 .slot-option span {
-  font-size: 11px;
-  font-weight: 800;
+
+   font-size: 11px;
+
+   font-weight: 800;
+
 }
 
+
+
+/* Individual selectable slot button. */
 .slot-option small {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  color: var(--green);
-  font-size: 9px;
-  font-weight: 700;
+
+   display: flex;
+
+   align-items: center;
+
+   gap: 3px;
+
+   color: var(--green);
+
+   font-size: 9px;
+
+   font-weight: 700;
+
 }
 
+
+
+/* Yellow label for an occupied vehicle/slot. */
 .slot-option.occupied small {
-  color: #a94c25;
+
+   color: #a94c25;
+
 }
 
+
+
+/* Set paragraph spacing and the muted colour used for supporting text. */
 .slot-help {
-  border: 1px dashed var(--line);
-  border-radius: 9px;
-  padding: 13px;
-  color: var(--muted);
-  font-size: 11px;
+
+   border: 1px dashed var(--line);
+
+   border-radius: 9px;
+
+   padding: 13px;
+
+   color: var(--muted);
+
+   font-size: 11px;
+
 }
+
+
 
 .slot-inline {
-  display: block;
-  color: var(--accent) !important;
-  font-size: 10px !important;
-  margin-top: 4px !important;
+
+   display: block;
+
+   color: var(--accent) !important;
+
+   font-size: 10px !important;
+
+   margin-top: 4px !important;
+
 }
+
+
 
 @media (max-width: 900px) {
-  .slot-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
-  .slots-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+   /* Grid of selectable training time slots. */
+   .slot-grid {
+
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+   }
+
+
+
+   /* Top header: sticky while scrolling, with the page title and actions aligned horizontally. */
+   .slots-header {
+
+      align-items: flex-start;
+
+      flex-direction: column;
+
+   }
+
 }
+
+
 
 @media (max-width: 600px) {
-  .slot-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .slot-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+   /* Grid of selectable training time slots. */
+   .slot-grid {
+
+      grid-template-columns: 1fr;
+
+   }
+
+
+
+   /* Individual slot row. */
+   .slot-row {
+
+      align-items: flex-start;
+
+      flex-direction: column;
+
+   }
+
 }
 
+
+
+/* SLOTS OVERVIEW SECTION: layout for showing multiple vehicle summaries together. */
 /* Slots overview: all vehicles side by side */
+
+/* Summary card showing slot/vehicle information. */
 .slot-summary-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 14px;
+
+   display: grid;
+
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+
+   gap: 10px;
+
+   margin-bottom: 14px;
+
 }
 
+
+
+/* Summary card showing slot/vehicle information. */
 .slot-summary-row .slot-summary {
-  margin-bottom: 0;
-  border: 1px solid transparent;
-  text-align: left;
-  display: grid;
-  gap: 3px;
+
+   margin-bottom: 0;
+
+   border: 1px solid transparent;
+
+   text-align: left;
+
+   display: grid;
+
+   gap: 3px;
+
 }
 
+
+
+/* Summary card showing slot/vehicle information. */
 .slot-summary-row .slot-summary.active {
-  border-color: var(--accent);
-  background: #fff4ee;
+
+   border-color: var(--accent);
+
+   background: #fff4ee;
+
 }
 
+
+
+/* Table cell spacing and text size. */
 .slot-table td {
-  padding: 8px;
-  white-space: nowrap;
+
+   padding: 8px;
+
+   white-space: nowrap;
+
 }
 
+
+
+/* Time label inside a slot row. */
 .slot-table td.slot-time {
-  display: table-cell;
+
+   display: table-cell;
+
 }
 
+
+
+/* Time label inside a slot row. */
 .slot-table td.slot-time svg {
-  vertical-align: -3px;
-  margin-right: 7px;
+
+   vertical-align: -3px;
+
+   margin-right: 7px;
+
 }
 
+
+
+/* Table-specific spacing for the slots overview. */
 .slot-table button.booked-status {
-  border: 0;
-  cursor: pointer;
+
+   border: 0;
+
+   cursor: pointer;
+
 }
 
+
+
+/* Table-specific spacing for the slots overview. */
 .slot-table button.booked-status:hover {
-  background: #ffe2d4;
+
+   background: #ffe2d4;
+
 }
+
+
 
 @media (max-width: 600px) {
-  .slot-summary-row {
-    grid-template-columns: 1fr;
-  }
+
+   /* Summary card showing slot/vehicle information. */
+   .slot-summary-row {
+
+      grid-template-columns: 1fr;
+
+   }
+
 }
 
+
+
+/* STUDENT DELETION SECTION: red delete controls and confirmation dialog. */
 /* Student deletion */
+
+/* Group row-level actions such as delete. */
 .row-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+
 .icon-danger{width:34px;height:34px;border:1px solid #f0caca;background:#fff;border-radius:8px;color:var(--red);display:grid;place-items:center}
+
 .icon-danger:hover{background:#fdecec}
+
 .profile-actions{display:flex;align-items:center;gap:12px;margin-left:auto}
+
+/* Show a pointer cursor on buttons to indicate that they can be clicked. */
 .danger-button{border:1px solid #efc3c3;background:#fff;color:var(--red);border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:7px;font-weight:700}
+
+/* Danger/delete action button. */
 .danger-button:hover{background:#fdecec}
+
+/* Secondary button style with a border and light background. */
 .danger-button:disabled,.outline:disabled{opacity:.6;cursor:not-allowed}
+
+/* Set paragraph spacing and the muted colour used for supporting text. */
 .modal-backdrop{position:fixed;inset:0;background:rgba(16,24,40,.48);display:grid;place-items:center;padding:20px;z-index:100}
+
+/* Confirmation dialog box displayed above the page. */
 .confirm-modal{width:min(460px,100%);background:#fff;border-radius:16px;padding:26px;box-shadow:0 24px 70px rgba(0,0,0,.22)}
+
 .confirm-icon{width:46px;height:46px;border-radius:12px;background:#fdecec;color:var(--red);display:grid;place-items:center;margin-bottom:14px}
+
+/* Confirmation dialog box displayed above the page. */
 .confirm-modal h3{font-size:21px;margin-bottom:8px}
+
+/* Set paragraph spacing and the muted colour used for supporting text. */
 .confirm-modal p{font-size:14px;line-height:1.5}
+
 .confirm-warning{font-size:12px!important;color:#a33b3b!important;background:#fff6f6;border-radius:9px;padding:10px;margin-top:12px}
+
 .confirm-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;flex-wrap:wrap}
+
+/* Show a pointer cursor on buttons to indicate that they can be clicked. */
 @media(max-width:700px){.profile-actions{margin-left:0;align-items:flex-start;flex-direction:column}.row-actions{justify-content:flex-start}.confirm-actions button{flex:1;justify-content:center}}
 
+
+
+/* PAYMENT SECTION: styles for pending payment and marking payment as complete. */
 /* Payment completion */
+
+/* Label showing that payment is due. */
 .payment-due-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: #fff1eb;
-  color: #c84f1f;
-  font-weight: 700;
-  font-size: 13px;
-}
-.payment-action {
-  display: flex;
-  align-items: end;
-  gap: 12px;
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid #eceff3;
-}
-.payment-action label {
-  display: grid;
-  gap: 7px;
-  min-width: 230px;
-  margin: 0;
-}
-.payment-action label span {
-  font-size: 13px;
-  color: #64748b;
-}
-.payment-action input {
-  width: 100%;
-}
-.payment-paid {
-  margin-top: 18px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: #edf9f2;
-  color: #15803d;
-  font-weight: 700;
-}
-@media (max-width: 640px) {
-  .payment-action {
-    align-items: stretch;
-    flex-direction: column;
-  }
-  .payment-action label {
-    min-width: 0;
-  }
+
+   display: inline-flex;
+
+   align-items: center;
+
+   padding: 7px 11px;
+
+   border-radius: 999px;
+
+   background: #fff1eb;
+
+   color: #c84f1f;
+
+   font-weight: 700;
+
+   font-size: 13px;
+
 }
 
-/* Simple full-balance payment action */
-.payment-action-single {
-  justify-content: space-between;
-  align-items: center;
+/* Row containing the payment information/input and action button. */
+.payment-action {
+
+   display: flex;
+
+   align-items: end;
+
+   gap: 12px;
+
+   margin-top: 18px;
+
+   padding-top: 18px;
+
+   border-top: 1px solid #eceff3;
+
 }
-.payment-amount-info {
-  display: grid;
-  gap: 4px;
+
+/* Row containing the payment information/input and action button. */
+.payment-action label {
+
+   display: grid;
+
+   gap: 7px;
+
+   min-width: 230px;
+
+   margin: 0;
+
 }
-.payment-amount-info span {
-  font-size: 13px;
-  color: #64748b;
+
+/* Row containing the payment information/input and action button. */
+.payment-action label span {
+
+   font-size: 13px;
+
+   color: #64748b;
+
 }
-.payment-amount-info strong {
-  font-size: 22px;
+
+/* Row containing the payment information/input and action button. */
+.payment-action input {
+
+   width: 100%;
+
 }
-.paid-button {
-  min-width: 150px;
+
+/* Success message shown after payment is marked as paid. */
+.payment-paid {
+
+   margin-top: 18px;
+
+   padding: 12px 14px;
+
+   border-radius: 10px;
+
+   background: #edf9f2;
+
+   color: #15803d;
+
+   font-weight: 700;
+
 }
+
 @media (max-width: 640px) {
-  .payment-action-single {
-    align-items: stretch;
-    flex-direction: column;
-  }
-  .paid-button {
-    width: 100%;
-  }
+
+   /* Row containing the payment information/input and action button. */
+   .payment-action {
+
+      align-items: stretch;
+
+      flex-direction: column;
+
+   }
+
+   /* Row containing the payment information/input and action button. */
+   .payment-action label {
+
+      min-width: 0;
+
+   }
+
+}
+
+
+
+/* FULL-BALANCE PAYMENT SECTION: align the outstanding amount with the action button. */
+/* Simple full-balance payment action */
+
+/* Row containing the payment information/input and action button. */
+.payment-action-single {
+
+   justify-content: space-between;
+
+   align-items: center;
+
+}
+
+.payment-amount-info {
+
+   display: grid;
+
+   gap: 4px;
+
+}
+
+.payment-amount-info span {
+
+   font-size: 13px;
+
+   color: #64748b;
+
+}
+
+.payment-amount-info strong {
+
+   font-size: 22px;
+
+}
+
+/* Show a pointer cursor on buttons to indicate that they can be clicked. */
+.paid-button {
+
+   min-width: 150px;
+
+}
+
+@media (max-width: 640px) {
+
+   /* Row containing the payment information/input and action button. */
+   .payment-action-single {
+
+      align-items: stretch;
+
+      flex-direction: column;
+
+   }
+
+   /* Show a pointer cursor on buttons to indicate that they can be clicked. */
+   .paid-button {
+
+      width: 100%;
+
+   }
+
 }
