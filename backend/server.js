@@ -72,7 +72,7 @@ const StudentSchema = new mongoose.Schema({
 // A slot belongs to a branch + vehicle: different cars can train at the same time,
 // but one car can never have two ACTIVE students in the same slot.
 StudentSchema.index(
-  { branchId: 1, vehicleId: 1, slotId: 1 },
+  {  vehicleId: 1, slotId: 1 },
   { unique: true, partialFilterExpression: { status: 'Active', slotId: { $type: 'string' } } }
 );
 const AttendanceSchema = new mongoose.Schema({
@@ -297,7 +297,7 @@ app.post('/api/students', async (req, res) => {
     };
     const slotTaken = (holder) => `Slot ${slot.label} is already assigned to ${holder.name} for ${vehicle.name}. Please choose another slot.`;
     if (useMongo) {
-      const holder = await Student.findOne({ branchId, vehicleId: vehicle.id, slotId: slot.id, status: 'Active' }).lean();
+      const holder = await Student.findOne({  vehicleId: vehicle.id, slotId: slot.id, status: 'Active' }).lean();
       if (holder) return publicError(res, 409, slotTaken(holder));
       // The unique indexes also block two staff booking the same slot, or
       // getting the same student ID, at the same moment.
@@ -321,7 +321,7 @@ app.post('/api/students', async (req, res) => {
     } else {
       const holder = await withDb(async () => {
         const db = await readDb();
-        const existing = db.students.find(s => s.branchId === branchId && s.vehicleId === vehicle.id && s.slotId === slot.id && s.status === 'Active');
+        const existing = db.students.find(s =>  s.vehicleId === vehicle.id && s.slotId === slot.id && s.status === 'Active');
         if (existing) return existing;
         db.lastStudentNumber ||= {};
         student.id = nextStudentId(branchId, db.students.map(s => s.id), db.lastStudentNumber[branchId]);

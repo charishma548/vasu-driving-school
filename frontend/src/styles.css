@@ -1,4 +1,4 @@
-/*
+/* cherryyyyy
   VASU DRIVING SCHOOL — STYLESHEET GUIDE
   --------------------------------------
   This stylesheet controls the visual appearance and layout of the React app.
@@ -16,9 +16,9 @@
 
 
 
-    --bg:#f7f8fa;
+    --bg:#e5dfe4;
 
-  --card:hsl(0, 61%, 68%);
+  --card:hsl(0, 82%, 51%);
 
   --ink:#091f38;
 
@@ -26,11 +26,11 @@
 
   --line:#98a0b6;
 
-  --accent:#bb1313;
+  --accent:#e25050;
 
   --accent2:#f08a5b;
 
-  --green:#0e8557;
+  --green:#0f7e54;
 
   --red:#ca0f0f;
 
@@ -39,98 +39,40 @@
   --shadow:0 8px 30px rgba(20,30,45,.06)}
 
 
-
-
-
    /* Apply border-box sizing so padding and borders are included in element width/height calculations. */
 
    * {box-sizing:border-box}
 
-
-
-
-
-
-
    /* Base page style: remove default margin, set the page background and text colour, and choose the main font. */
 
    body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
-
-
-
-
-
-
-
    /* Make form controls inherit the same font as the rest of the site. */
 
    button,input,select,textarea{font:inherit}
-
-
-
-
-
-
-
    /* Show a pointer cursor on buttons to indicate that they can be clicked. */
 
    button{cursor:pointer}
-
-
-
-
-
-
 
    /* Use the display font for headings and remove their default margin. */
 
    h1,h2,h3{font-family:Manrope;margin:0}
 
-
-
-
-
-
-
    /* Set paragraph spacing and the muted colour used for supporting text. */
 
    p{margin:5px 0;color:var(--muted)}
-
-
-
-
-
-
 
    /* Set paragraph spacing and the muted colour used for supporting text. */
 
    /* App shell: places the fixed sidebar beside the main page content. */
 .app{display:flex;min-height:100vh}
 
-
-
-
-
-
-
    /* Left navigation panel: fixed to the left side and full screen height. */
 
    .sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
 
-
-
-
-
-
-
    /* Layout for the brand/logo and school name inside the sidebar. */
 
    .brand{display:flex;align-items:center;gap:11px;padding:0 9px 22px}
-
-
-
-
-
 
 
    /* Style the bold school name in the sidebar. */
@@ -139,57 +81,26 @@
 
 
 
-
-
-
-
    /* Style the smaller subtitle below the school name. */
 
    .brand span{font-size:11px;color:var(--muted)}
-
-
-
-
-
-
 
    /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
 
    .logo{width: 37px;height:37px;border-radius:12px;background:var(--ink);color:white;display:grid;place-items:center;font:800 19px Manrope}
 
 
-
-
-
-
-
    /* Style the square logo badge; the .big version is used for the larger logo on the branch-selection screen. */
 
    .logo.big{width:80px;height:62px;font-size:30px;border-radius:19px;margin:auto}
-
-
-
-
-
-
 
    /* Close control for the mobile sidebar; hidden on desktop. */
 
    .close{display:none;border:0;background:none;margin-left:auto}
 
-
-
-
-
-
-
    /* Small label showing which branch is currently selected. */
 
    .branch-pill{background:#f8f0eb;color:#a94c25;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
-
-
-
-
 
 
 
@@ -198,18 +109,9 @@
    .sidebar nav{display:grid;gap:4px}
 
 
-
-
-
-
-
    /* Arrange sidebar navigation buttons vertically. */
 
    .sidebar nav button,.switch{border:0;background:none;padding:11px 12px;border-radius:9px;text-align:left;color:#111213;display:flex;gap:11px;align-items:center;font-weight:600}
-
-
-
-
 
 
 
@@ -218,19 +120,9 @@
    .sidebar nav button.active{background:#fff0e9;color:hsl(0, 93%, 6%)}
 
 
-
-
-
-
-
    /* Style the branch/logout switch control and push it toward the bottom of the sidebar. */
 
    .switch{margin-top:auto}
-
-
-
-
-
 
 
    /* Arrange sidebar navigation buttons vertically. */
@@ -238,26 +130,15 @@
    .sidebar nav button:hover,.switch:hover{background:hsl(0, 4%, 64%)}
 
 
-
-
-
   /* Desktop content area: reserve space for the 245px fixed sidebar. */
 main{margin-left:245px;width:calc(100% - 245px)}
-
-
 
   /* Top header: title, branch name, refresh and primary action. */
 header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
 
-
-
   header h1{font-size:22px}
 
-
-
   header p{font-size:12px}
-
-
 
   /* Shared button layout; colour variants are defined in the rules below. */
 .primary,.outline{border:0;border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:7px;font-weight:700}
@@ -300,40 +181,22 @@ header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:f
   /* Dashboard summary cards arranged in a responsive grid. */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
 
-
-
   .stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow)}
-
-
 
   .stat-icon{width:40px;height:40px;border-radius:10px;background:#fff1e9;color:var(--accent);display:grid;place-items:center}
 
-
-
   .stat span{display:block;color:var(--muted);font-size:12px}
 
-
-
   .stat strong{font:800 23px Manrope;display:block;margin-top:3px}
-
-
 
   /* Two-column content panels on larger screens. */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-
-
   .panel,.form-panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
 
-
-
   .panel{padding:20px}
-
-
-
+  
   .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-
-
 
   .panel-head h3{font-size:16px}
 

@@ -51,6 +51,8 @@ export default function App() {
   // The user must choose Tagarapuvalasa or Ananthapuram first.
   const [branch, setBranch] = useState('');
   const [students, setStudents] = useState([]);
+  // All branches' students are loaded only for shared vehicle-slot availability.
+  const [slotStudents, setSlotStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [page, setPage] = useState('dashboard');
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -83,13 +85,15 @@ export default function App() {
     }
 
     try {
-      const [studentData, attendanceData] = await Promise.all([
+      const [studentData, attendanceData, allStudentData] = await Promise.all([
         api(`/students?branchId=${encodeURIComponent(branch)}`),
         api(`/attendance?branchId=${encodeURIComponent(branch)}`),
+        api('/students'),
       ]);
 
       if (id !== requestId.current) return;
       setStudents(studentData);
+      setSlotStudents(allStudentData);
       setLoadedFor(branch);
       setAttendance(attendanceData);
     } catch (err) {
@@ -143,6 +147,7 @@ export default function App() {
     setLoadedFor('');
     setLoading(false);
     setStudents([]);
+    setSlotStudents([]);
     setAttendance([]);
   }, [branch]);
 
@@ -227,6 +232,10 @@ export default function App() {
   const activeStudents = students.filter(
     (student) => student.status === 'Active'
   );
+  // Slot availability is shared between Tagarapuvalasa and Ananthapuram.
+  const slotActiveStudents = slotStudents.filter(
+    (student) => student.status === 'Active'
+  );
 
   const completedStudents = students.filter(
     (student) => student.status === 'Completed'
@@ -251,7 +260,9 @@ export default function App() {
   }
 
   function openStudent(student) {
-    goTo({ branch, page: 'profile', student });
+    // A booking shown on the shared slots page may belong to the other branch.
+    // Open the student's own branch so their profile and attendance load correctly.
+    goTo({ branch: student.branchId || branch, page: 'profile', student });
   }
 
   function selectBranch(branchId) {
@@ -438,7 +449,7 @@ export default function App() {
           {page === 'new' && (
             <NewStudent
               branchName={currentBranch?.name}
-              activeStudents={activeStudents}
+              activeStudents={slotActiveStudents}
               onBack={goBack}
               onDone={() => navigate('students', { replace: true })}
               onRegister={registerStudent}
@@ -488,7 +499,7 @@ export default function App() {
           )}
 
           {page === 'slots' && (
-            <SlotsPage students={activeStudents} onOpen={openStudent} />
+            <SlotsPage students={slotActiveStudents} onOpen={openStudent} />
           )}
 
           {page === 'vehicles' && <Vehicles />}
