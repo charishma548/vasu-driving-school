@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
+  ArrowRight,
   CalendarCheck,
+  Car,
   CarFront,
   Check,
   CheckCircle2,
@@ -13,6 +15,7 @@ import {
   Lock,
   LockKeyhole,
   LogOut,
+  MapPin,
   Menu,
   Plus,
   RefreshCw,
@@ -23,6 +26,7 @@ import {
 } from 'lucide-react';
 
 import { api, setToken } from './api';
+import ownerPhoto from './assets/owner.jpg';
 import {
   ATTENDANCE_STATUS,
   BRANCHES,
@@ -665,32 +669,68 @@ function Login({ serverError, onRetry, onLoggedIn }) {
 
 function BranchSelect({ onSelect }) {
   return (
-    <div className="branch-screen">
-      <div className="hero">
-        <div className="logo big">V</div>
-        <h1>VASU DRIVING SCHOOL</h1>
-        <p>Training Management System</p>
+    <div className="bs-page">
+      <div className="bs-hero">
+        <div className="bs-glow bs-glow-one" />
+        <div className="bs-glow bs-glow-two" />
+
+        <div className="bs-hero-inner">
+          <div className="bs-photo-ring">
+            <img
+              className="bs-photo"
+              src={ownerPhoto}
+              alt="Vasu Driving School owner"
+            />
+          </div>
+
+          <span className="bs-chip">Staff Portal</span>
+          <h1 className="bs-title">
+            VASU <span>DRIVING SCHOOL</span>
+          </h1>
+          <p className="bs-subtitle">Training Management System</p>
+        </div>
+
+        {/* Decorative road with moving lane markings and a small car. */}
+        <div className="bs-road" aria-hidden="true">
+          <div className="bs-lane" />
+          <Car className="bs-car" size={26} />
+        </div>
       </div>
 
-      <div className="branch-grid">
-        {BRANCHES.map((branch) => (
-          <button
-            className="branch-card"
-            key={branch.id}
-            onClick={() => onSelect(branch.id)}
-          >
-            <div className="branch-icon">📍</div>
-            <div>
-              <h2>{branch.name}</h2>
-              <span>
-                Open branch <ChevronRight size={16} />
+      <div className="bs-sheet">
+        <div className="bs-sheet-head">
+          <h2>Choose your branch</h2>
+          <p>Select the branch before managing students.</p>
+        </div>
+
+        <div className="bs-grid">
+          {BRANCHES.map((branch, index) => (
+            <button
+              type="button"
+              className="bs-card"
+              key={branch.id}
+              style={{ animationDelay: `${0.15 + index * 0.12}s` }}
+              onClick={() => onSelect(branch.id)}
+            >
+              <span className="bs-card-badge">
+                <MapPin size={22} />
               </span>
-            </div>
-          </button>
-        ))}
-      </div>
 
-      <small>Select the branch before managing students.</small>
+              <span className="bs-card-text">
+                <span className="bs-card-code">
+                  {branch.name.slice(0, 3).toUpperCase()} BRANCH
+                </span>
+                <b>{branch.name}</b>
+                <span className="bs-card-open">
+                  Open branch <ArrowRight size={15} />
+                </span>
+              </span>
+
+              <ChevronRight className="bs-card-chevron" size={20} />
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
