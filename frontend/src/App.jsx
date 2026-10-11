@@ -70,6 +70,11 @@ export default function App() {
   const [deleting, setDeleting] = useState(false);
   // Ignores responses from older requests, e.g. after quickly switching branches.
   const requestId = useRef(0);
+  // Attendance clicks still being saved. While any are pending, a reload could
+  // bring back the old colour, so reload results are skipped and repeated later.
+  const pendingSaves = useRef(0);
+  const saveCount = useRef(0);
+  const reloadAfterSaves = useRef(false);
 
   const currentBranch = BRANCHES.find((item) => item.id === branch);
 
@@ -79,6 +84,8 @@ export default function App() {
     if (!branch) return;
 
     const id = ++requestId.current;
+    const savesAtStart = saveCount.current;
+    const savesWerePending = pendingSaves.current > 0;
     if (!silent) {
       setLoading(true);
       setError('');
@@ -92,6 +99,14 @@ export default function App() {
       ]);
 
       if (id !== requestId.current) return;
+
+      // An attendance click happened during this reload: the data may not
+      // include it yet. Keep what is on screen and reload once saving is done.
+      if (savesWerePending || saveCount.current !== savesAtStart) {
+        reloadAfterSaves.current = true;
+        return;
+      }
+
       setStudents(studentData);
       setSlotStudents(allStudentData);
       setLoadedFor(branch);
@@ -273,8 +288,40 @@ export default function App() {
     goTo({ branch: '', page: 'dashboard' });
   }
 
+  // Replace (or remove) the attendance record of one student on one date.
+  function putRecord(list, studentId, date, record) {
+    const others = list.filter(
+      (item) => !(item.studentId === studentId && item.date === date)
+    );
+    return record ? [...others, record] : others;
+  }
+
   async function saveAttendance(student, date, status) {
     setError('');
+
+    const previous = attendance.find(
+      (item) => item.studentId === student.id && item.date === date
+    );
+    if (previous?.status === status) return;
+
+    // Show the new colour immediately; the server saves it in the background.
+    const optimisticId = `pending-${Date.now()}-${Math.random()}`;
+    const optimistic = {
+      ...previous,
+      id: optimisticId,
+      studentId: student.id,
+      branchId: student.branchId,
+      date,
+      status,
+    };
+    setAttendance((list) => putRecord(list, student.id, date, optimistic));
+
+    pendingSaves.current += 1;
+    saveCount.current += 1;
+
+    // Only touch the record if no newer click has replaced it meanwhile.
+    const stillOurs = (list) =>
+      list.some((item) => item.id === optimisticId);
 
     try {
       const result = await api('/attendance', {
@@ -287,7 +334,23 @@ export default function App() {
         }),
       });
 
-      await loadData();
+      setAttendance((list) =>
+        stillOurs(list)
+          ? putRecord(list, student.id, date, result.record)
+          : list
+      );
+
+      if (result.student?.status) {
+        const withStatus = (list) =>
+          list.map((item) =>
+            item.id === student.id
+              ? { ...item, status: result.student.status }
+              : item
+          );
+        setStudents(withStatus);
+        // Slot bookings use every student, so keep their status in step too.
+        setSlotStudents(withStatus);
+      }
 
       // A student enters History only when both conditions are true:
       // all required training days are completed AND payment due is ₹0.
@@ -295,7 +358,20 @@ export default function App() {
         goTo({ branch, page: 'history' }, { replace: true });
       }
     } catch (err) {
+      // Saving failed: put the old colour back and explain why.
+      setAttendance((list) =>
+        stillOurs(list)
+          ? putRecord(list, student.id, date, previous || null)
+          : list
+      );
       setError(err.message);
+    } finally {
+      pendingSaves.current -= 1;
+
+      if (pendingSaves.current === 0 && reloadAfterSaves.current) {
+        reloadAfterSaves.current = false;
+        latestLoad.current({ silent: true });
+      }
     }
   }
 

@@ -453,9 +453,12 @@ app.put('/api/attendance', async (req, res) => {
     if (useMongo) {
       const student = await Student.findOne({ id: String(studentId), branchId });
       if (!student) return publicError(res, 404, 'Student not found in this branch.');
-      const existing = await Attendance.findOne({ studentId: student.id, date }).lean();
+      // Both lookups run at the same time to keep each click fast.
+      const [existing, attendedBefore] = await Promise.all([
+        Attendance.findOne({ studentId: student.id, date }).lean(),
+        Attendance.countDocuments({ studentId: student.id, status: 'Present' })
+      ]);
       const currentPresent = existing?.status === 'Present';
-      const attendedBefore = await Attendance.countDocuments({ studentId: student.id, status: 'Present' });
       if (status === 'Present' && !currentPresent && attendedBefore >= student.requiredDays) return publicError(res, 400, alreadyComplete(student));
       if (student.status === 'Completed' && currentPresent && status !== 'Present' && student.slotId) {
         const holder = await Student.findOne({ branchId, vehicleId: student.vehicleId, slotId: student.slotId, status: 'Active', id: { $ne: student.id } }).lean();
@@ -463,9 +466,13 @@ app.put('/api/attendance', async (req, res) => {
       }
       const record = { id: existing?.id || uid(), studentId: student.id, branchId, date, status, updatedAt: new Date().toISOString() };
       await Attendance.findOneAndUpdate({ studentId: student.id, date }, record, { upsert: true, setDefaultsOnInsert: true });
-      const attended = await Attendance.countDocuments({ studentId: student.id, status: 'Present' });
-      student.status = statusFor(attended, student.requiredDays, student.balanceAmount);
-      await student.save();
+      // The new Present count follows from this change; no need to count again.
+      const attended = attendedBefore - (currentPresent ? 1 : 0) + (status === 'Present' ? 1 : 0);
+      const nextStatus = statusFor(attended, student.requiredDays, student.balanceAmount);
+      if (student.status !== nextStatus) {
+        student.status = nextStatus;
+        await student.save();
+      }
       return res.json({ ok: true, record, student });
     }
 
