@@ -18,23 +18,21 @@
 
     --bg:#e5dfe4;
 
-  --card:hsl(0, 71%, 42%);
-
+  --card:#9999d7;
   --ink:#091f38;
 
   --muted:#20211d;
 
   --line:#98a0b6;
 
-  --accent:#e25050;
+  --accent:#c42c40;
 
   --accent2:#c4480f;
 
   --green:#0f7e54;
 
   --red:#ca0f0f;
-
-  --blue:#4667c9;
+  --blue:#9f9fdd;
 
   --shadow:0 8px 30px rgba(20,30,45,.06)}
 
@@ -192,7 +190,7 @@ header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:f
   /* Two-column content panels on larger screens. */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
-  .panel,.form-panel{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
+  .panel,.form-panel{background:#ffffff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
 
   .panel{padding:20px}
   
@@ -207,7 +205,6 @@ header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:f
 
 
   .quick{display:grid;gap:8px}
-
 
 
   .quick button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:13px;text-align:left;display:grid;grid-template-columns:25px 1fr;align-items:center}
