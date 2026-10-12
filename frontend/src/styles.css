@@ -27,7 +27,7 @@
 
   --accent:#970b1e;
 
-  --accent2:#0fc4c4;
+  --accent2:#c40f18;
 
   --green:#0f7e54;
 
@@ -98,7 +98,7 @@
 
    /* Small label showing which branch is currently selected. */
 
-   .branch-pill{background:#f8f0eb;color:#a94c25;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
+   .branch-pill{background:#f8f0eb;color:#a51a1a;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:600;margin:3px 5px 20px}
 
 
 
