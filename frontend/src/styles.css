@@ -28,7 +28,7 @@
 
   --accent:#e25050;
 
-  --accent2:#f08a5b;
+  --accent2:#c4480f;
 
   --green:#0f7e54;
 
@@ -43,7 +43,7 @@
 
    * {box-sizing:border-box}
 
-   /* Base page style: remove default margin, set the page background and text colour, and choose the main font. */
+   /* Base page tyle: remove default margin, set the page background and text colour, and choose the main font. */
 
    body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
    /* Make form controls inherit the same font as the rest of the site. */
@@ -68,7 +68,7 @@
 
    /* Left navigation panel: fixed to the left side and full screen height. */
 
-   .sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
+   .sidebar{width:245px;background:#8885d1;border-right:1px solid var(--line);padding:25px 15px;position:fixed;height:100vh;z-index:10;display:flex;flex-direction:column}
 
    /* Layout for the brand/logo and school name inside the sidebar. */
 
@@ -117,7 +117,7 @@
 
    /* Arrange sidebar navigation buttons vertically. */
 
-   .sidebar nav button.active{background:#fff0e9;color:hsl(0, 93%, 6%)}
+   .sidebar nav button.active{background:#e1e1ec;color:hsl(0, 93%, 6%)}
 
 
    /* Style the branch/logout switch control and push it toward the bottom of the sidebar. */
@@ -149,7 +149,7 @@ header{height:83px;background:#fff;border-bottom:1px solid var(--line);display:f
 
 
 
-  .primary:hover{background:#cc5727}
+  .primary:hover{background:#cc2727}
 
 
 
