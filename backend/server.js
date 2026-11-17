@@ -17,6 +17,9 @@ const PORT = Number(process.env.PORT || 5000);
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const TIME_ZONE = process.env.TIME_ZONE || 'Asia/Kolkata';
 const APP_PASSWORD = process.env.APP_PASSWORD || '';
+// Set MAINTENANCE_MODE=true in Render to show a private, owner-neutral
+// maintenance page without suspending the service or touching the database.
+const MAINTENANCE_MODE = String(process.env.MAINTENANCE_MODE || 'false').toLowerCase() === 'true';
 const authRequired = Boolean(APP_PASSWORD);
 const TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -34,6 +37,43 @@ app.use((_req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'same-origin');
   next();
+});
+
+// When maintenance mode is enabled, stop all public app/API requests here.
+// This serves the same neutral page for every URL and does not expose who
+// enabled maintenance mode. The database is not changed by this middleware.
+app.use((req, res, next) => {
+  if (!MAINTENANCE_MODE) return next();
+
+  const maintenanceHtml = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Website Temporarily Unavailable</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f4f7fb; color: #172033; font-family: Arial, Helvetica, sans-serif; text-align: center; }
+    main { width: 100%; max-width: 520px; padding: 42px 28px; background: #fff; border: 1px solid #e5eaf1; border-radius: 18px; box-shadow: 0 12px 40px rgba(20, 35, 60, .08); }
+    .mark { width: 58px; height: 58px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 16px; background: #eaf1ff; color: #3159a8; font-size: 28px; }
+    h1 { margin: 0 0 14px; font-size: clamp(25px, 5vw, 32px); line-height: 1.2; }
+    p { margin: 0; color: #647087; font-size: 16px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">⌛</div>
+    <h1>Website Temporarily Unavailable</h1>
+    <p>We are currently making some updates.<br />Please visit again later. Thank you for your patience.</p>
+  </main>
+</body>
+</html>`;
+
+  res.status(503);
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Retry-After', '3600');
+  res.type('html').send(maintenanceHtml);
 });
 
 const BRANCHES = [

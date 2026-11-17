@@ -145,3 +145,18 @@ See `CODE-GUIDE.md` for a simple map of the code.
 - If a completed student's attendance is changed so their training would reopen, this is blocked when their old slot already belongs to a new student.
 - The Training Slots page shows all vehicles side by side and refreshes automatically every 30 seconds.
 - To change slot times, edit `SLOTS` in both `frontend/src/config.js` and `backend/server.js`.
+
+## Temporarily show a custom maintenance page on Render
+
+Do not use Render's **Suspend Web Service** button when you want to show the
+custom message. Instead, keep the web service running and change this Render
+environment variable:
+
+- `MAINTENANCE_MODE=true` — visitors see “Website Temporarily Unavailable”.
+- `MAINTENANCE_MODE=false` — the normal website is available again.
+
+Add or update the variable under the Render web service's **Environment** tab.
+Save the change and wait for Render to finish the resulting deploy/restart.
+The maintenance middleware blocks public website and API requests while enabled;
+it does not delete or edit MongoDB records. Keep the MongoDB Atlas cluster and
+its database unchanged.
